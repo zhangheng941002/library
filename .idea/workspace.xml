@@ -75,8 +75,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LibraryOccupancy/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="128" column="16" lean-forward="true" selection-start-line="128" selection-start-column="16" selection-end-line="128" selection-end-column="16" />
+            <state relative-caret-position="274">
+              <caret line="95" column="23" lean-forward="true" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -113,8 +113,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="270" />
-    <option name="y" value="91" />
+    <option name="x" value="307" />
+    <option name="y" value="275" />
     <option name="width" value="1640" />
     <option name="height" value="983" />
   </component>
@@ -133,23 +133,7 @@
             <path>
               <item name="LibraryOccupancy" type="b2602c69:ProjectViewProjectNode" />
               <item name="LibraryOccupancy" type="462c0819:PsiDirectoryNode" />
-              <item name="LibraryOccupancy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LibraryOccupancy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LibraryOccupancy" type="462c0819:PsiDirectoryNode" />
-              <item name="seat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LibraryOccupancy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LibraryOccupancy" type="462c0819:PsiDirectoryNode" />
-              <item name="students" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LibraryOccupancy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LibraryOccupancy" type="462c0819:PsiDirectoryNode" />
-              <item name="students" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+              <item name="SQL" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -226,8 +210,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="247" y="190" width="1640" height="983" extended-state="0" />
-    <editor active="true" />
+    <frame x="151" y="59" width="1640" height="983" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32953104" />
@@ -235,7 +218,7 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.32990867" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" weight="0.3395566" />
       <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.40803897" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.589525" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16772152" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32974684" />
@@ -391,8 +374,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LibraryOccupancy/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="128" column="16" lean-forward="true" selection-start-line="128" selection-start-column="16" selection-end-line="128" selection-end-column="16" />
+        <state relative-caret-position="274">
+          <caret line="95" column="23" lean-forward="true" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
         </state>
       </provider>
     </entry>

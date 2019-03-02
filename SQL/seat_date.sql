@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2019-03-02 15:15:40
+Date: 2019-03-02 16:24:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `seat_date`;
 CREATE TABLE `seat_date` (
   `id` int(12) NOT NULL,
   `seat_id` int(12) NOT NULL,
+  `floor_id` int(12) NOT NULL,
   `start_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
   `end_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int(12) NOT NULL COMMENT '默认：0：未被使用，1：已被使用',
@@ -31,3 +32,4 @@ CREATE TABLE `seat_date` (
 -- ----------------------------
 -- Records of seat_date
 -- ----------------------------
+INSERT INTO `seat_date` VALUES ('1', '1', '1', '2019-03-02 15:58:08', '2019-03-02 17:00:00', '1');
