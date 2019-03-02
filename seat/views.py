@@ -59,6 +59,9 @@ def get_seat(request):
     if start_date == None:
         now = datetime.datetime.now()
 
+        # now = datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")
+        # now = datetime.datetime.strptime(now, "%Y-%m-%d %H:%M:%S")
+
         data_query = {
             "floor_id": floor_id,
             "seat_id": seat_id,
@@ -69,6 +72,7 @@ def get_seat(request):
     query_dict = {k: v for k, v in data_query.items() if v != None}
 
     print('--------------')
+    print(now)
     print(data_query)
 
     seat = SeatDate.objects.filter(**query_dict)
