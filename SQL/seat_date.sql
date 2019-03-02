@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2019-03-02 12:20:17
+Date: 2019-03-02 15:15:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,9 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `seat_date`;
 CREATE TABLE `seat_date` (
   `id` int(12) NOT NULL,
-  `seat_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `seat_id` int(12) NOT NULL,
+  `start_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `end_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int(12) NOT NULL COMMENT '默认：0：未被使用，1：已被使用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
