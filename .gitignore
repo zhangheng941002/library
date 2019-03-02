@@ -1,0 +1,11 @@
+.idea
+log/*
+*.pyc
+
+venv
+
+venv/*
+
+venv-*
+*env
+db_conf.py
