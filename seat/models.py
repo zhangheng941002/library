@@ -27,6 +27,7 @@ class Seat(models.Model):
 # 楼层座位使用情况记录表
 class SeatDate(models.Model):
     id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
     floor_id = models.IntegerField()
     seat_id = models.IntegerField()
     start_date = models.DateTimeField()

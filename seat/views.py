@@ -66,7 +66,6 @@ def get_seat(request):
 
     query_dict = {k: v for k, v in data_query.items() if v != None}
 
-
-    seat = SeatDate.objects.filter(**query_dict)
+    seat = SeatDate.objects.filter(**query_dict).filter(status=1)
     serializer = SeatDateSerializer(seat, many=True)
     return Response({"status": 1, "return": serializer.data})

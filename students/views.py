@@ -115,7 +115,7 @@ def user_seat(request):
     cz = end_date - start_date
     hour = cz.seconds // 3600
     if hour > 1:
-        for i in range(1,hour):
+        for i in range(1, hour):
             pd_time = start_date + datetime.timedelta(hours=1)
             data_query = {
                 "floor_id": floor_id,
@@ -123,7 +123,7 @@ def user_seat(request):
                 "start_date__lte": pd_time,
                 "end_date__gte": pd_time,
             }
-            seat3= SeatDate.objects.filter(**data_query)
+            seat3 = SeatDate.objects.filter(**data_query)
 
             if seat3.exists():
                 return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
@@ -138,7 +138,28 @@ def user_seat(request):
 
         if seat3.exists():
             return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
-    use_seat = SeatDate.objects.create(seat_id=seat_id, floor_id=floor_id, start_date=start_date, end_date=end_date,
+    use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date, end_date=end_date,
                                        status=1)
 
     return Response({"statusCode": 1, "msg": "预约座位成功。"})
+
+
+# 取消预约
+@api_view(["POST"])
+def del_seat(request):
+    """
+
+    """
+    data = request.data
+    id = data.get("id")
+    user_id = data.get("user_id")
+
+    data_query = {
+        "user_id": user_id,
+        "id": id,
+    }
+    seat_date = SeatDate.objects.filter(**data_query).update(status=0)
+    if seat_date:
+        return Response({"statusCode": 1, "msg": "取消预约成功", })
+    else:
+        return Response({"statusCode": 0, "msg": "取消预约失败，没有查到预约信息", })
