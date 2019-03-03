@@ -10,3 +10,4 @@ urlpatterns = router.urls
 urlpatterns.append(url(r'add_user', add_user))
 urlpatterns.append(url(r'get_user', get_user))
 urlpatterns.append(url(r'update_user', get_user))
+urlpatterns.append(url(r'user_seat', user_seat))
