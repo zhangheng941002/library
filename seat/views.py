@@ -10,6 +10,8 @@ from .serializers import SeatSerializer, SeatDateSerializer, BlankLogsSerializer
 import json
 import datetime
 
+from utils.page_kit import get_page_limit
+
 
 @api_view(["GET"])
 def get_floor(request):
@@ -18,13 +20,20 @@ def get_floor(request):
     """
     data = request.GET
     floor_id = data.get("floor_id", None)
+    page_size = data.get("page_size", 10)
+    page = data.get("page", 1)
+
+    limit, offset = get_page_limit(page_size, page)
+
     data_query = {
         "floor_id": floor_id
     }
     query_dict = {k: v for k, v in data_query.items() if v != None}
     user = FloorBuliding.objects.filter(**query_dict)
+    count = user.count()
+    user = user[limit: offset]
     serializer = FloorBulidingSerializer(user, many=True)
-    return Response({"status": 1, "return": serializer.data})
+    return Response({"status": 1, "count": count, "return": serializer.data})
 
 
 @api_view(["GET"])
