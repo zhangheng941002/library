@@ -188,7 +188,7 @@ def confirm_seat(request):
         return Response({"statusCode": 0, "msg": "签到失败，没有查到预约信息。" })
 
 
-# 预约座位，没有到
+# 预约座位，爽约
 @api_view(["POST"])
 def break_promise_seat(request):
     """
@@ -197,8 +197,12 @@ def break_promise_seat(request):
     data = request.data
     end_time = datetime.datetime.utcnow() + datetime.timedelta(hours=8)
 
-    seat_date = SeatDate.objects.filter(end_date__lte=end_time,is_come=0).update(is_come=2)
-    if seat_date:
-        return Response({"statusCode": 1, "msg": "爽约记录成功", })
-    else:
-        return Response({"statusCode": 0, "msg": "爽约记录失败，没有查到预约信息。" })
+    seat_date = SeatDate.objects.filter(end_date__lte=end_time,is_come=0)
+    for each in seat_date:
+        # 记录违约记录
+        pass
+        # user_id = each.user_id
+        # blank_log = BlankLogs.objects.filter(user_id)
+    seat_date.update(is_come=2)
+
+    return Response({"statusCode": 1, "msg": "爽约记录成功!"})
