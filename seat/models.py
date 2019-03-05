@@ -33,6 +33,7 @@ class SeatDate(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     status = models.IntegerField()
+    is_come = models.IntegerField()
 
     class Meta:
         managed = False

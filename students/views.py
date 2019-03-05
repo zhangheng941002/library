@@ -122,6 +122,7 @@ def user_seat(request):
                 "seat_id": seat_id,
                 "start_date__lte": pd_time,
                 "end_date__gte": pd_time,
+                "is_come": 0
             }
             seat3 = SeatDate.objects.filter(**data_query)
 
@@ -133,13 +134,14 @@ def user_seat(request):
             "seat_id": seat_id,
             "start_date__lt": start_date,
             "end_date__gt": start_date,
+            "is_come": 0
         }
         seat3 = SeatDate.objects.filter(**data_query)
 
         if seat3.exists():
             return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
     use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date, end_date=end_date,
-                                       status=1)
+                                       status=1, is_come=0)
 
     return Response({"statusCode": 1, "msg": "预约座位成功。"})
 
@@ -163,3 +165,40 @@ def del_seat(request):
         return Response({"statusCode": 1, "msg": "取消预约成功", })
     else:
         return Response({"statusCode": 0, "msg": "取消预约失败，没有查到预约信息", })
+
+
+# 确认入场
+@api_view(["POST"])
+def confirm_seat(request):
+    """
+
+    """
+    data = request.data
+    id = data.get("id")
+    user_id = data.get("user_id")
+
+    data_query = {
+        "user_id": user_id,
+        "id": id,
+    }
+    seat_date = SeatDate.objects.filter(**data_query).update(is_come=1)
+    if seat_date:
+        return Response({"statusCode": 1, "msg": "签到成功", })
+    else:
+        return Response({"statusCode": 0, "msg": "签到失败，没有查到预约信息。" })
+
+
+# 预约座位，没有到
+@api_view(["POST"])
+def break_promise_seat(request):
+    """
+
+    """
+    data = request.data
+    end_time = datetime.datetime.utcnow() + datetime.timedelta(hours=8)
+
+    seat_date = SeatDate.objects.filter(end_date__lte=end_time,is_come=0).update(is_come=2)
+    if seat_date:
+        return Response({"statusCode": 1, "msg": "爽约记录成功", })
+    else:
+        return Response({"statusCode": 0, "msg": "爽约记录失败，没有查到预约信息。" })
