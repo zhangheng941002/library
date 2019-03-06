@@ -1,6 +1,7 @@
-.idea
+.idea/*
 .idea*
 log/*
 *.pyc
+*.xml
 *env
 db_conf.py
