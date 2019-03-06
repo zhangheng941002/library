@@ -36,6 +36,8 @@ def add_user(request):
     major = data.get("major")
 
     user = User.objects.create(username=username, password=password, email=email, major=major, status=1)
+    user_id = user.id
+    blank_count = UserDefaultRecord.objects.create(user_id=user_id, count=0)
     return Response({
         "statusCode": 1,
         "msg": "成功",
@@ -200,9 +202,14 @@ def break_promise_seat(request):
     seat_date = SeatDate.objects.filter(end_date__lte=end_time,is_come=0)
     for each in seat_date:
         # 记录违约记录
-        pass
-        # user_id = each.user_id
-        # blank_log = BlankLogs.objects.filter(user_id)
+
+        user_id = each.user_id
+        record = UserDefaultRecord.objects.get(user_id=user_id)
+        if record.count < 5:
+            record.count = record.count + 1
+            record.save()
+        if record.count == 5:
+            blank_log = BlankLogs.objects.filter(user_id=user_id).update(status=1)
     seat_date.update(is_come=2)
 
     return Response({"statusCode": 1, "msg": "爽约记录成功!"})

@@ -5,5 +5,6 @@ from .views import *
 router = routers.DefaultRouter(trailing_slash=False)
 
 urlpatterns = router.urls
-urlpatterns.append(url(r'contract_upload', contract_upload))
-urlpatterns.append(url(r'contract_download', contract_download))
+urlpatterns.append(url(r'set_blank', set_blank))  # 设置黑名单
+urlpatterns.append(url(r'del_blank', del_blank))  # 取消黑名单
+

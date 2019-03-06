@@ -43,7 +43,7 @@ class SeatDate(models.Model):
 # 违约记录表
 class UserDefaultRecord(models.Model):
     user_id = models.IntegerField()
-    conut = models.IntegerField()
+    count = models.IntegerField()
 
     class Meta:
         managed = False
