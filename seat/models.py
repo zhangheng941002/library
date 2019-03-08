@@ -6,55 +6,60 @@ from django.db import models
 # 楼层信息表
 class FloorBuliding(models.Model):
     id = models.IntegerField(primary_key=True)
-    number = models.IntegerField()
-    status = models.IntegerField()
+    number = models.IntegerField(max_length=255, verbose_name='楼层号', db_column='number')
+    status = models.IntegerField(max_length=255, verbose_name='占用率', db_column='status')
 
     class Meta:
         managed = False
         db_table = 'floor_buliding'
+        verbose_name_plural = '楼层'
 
 
 # 座位表
 class Seat(models.Model):
-    seat_num = models.IntegerField()
-    status = models.IntegerField()
+    seat_num = models.IntegerField(verbose_name='座位号', db_column='seat_num')
+    status = models.IntegerField(verbose_name='状态', db_column='status')
 
     class Meta:
         managed = False
         db_table = 'seat'
+        verbose_name_plural = '座位表'
 
 
 # 楼层座位使用情况记录表
 class SeatDate(models.Model):
     id = models.IntegerField(primary_key=True)
-    user_id = models.IntegerField()
-    floor_id = models.IntegerField()
-    seat_id = models.IntegerField()
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    status = models.IntegerField()
-    is_come = models.IntegerField()
+    user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    floor_id = models.IntegerField(verbose_name='楼层', db_column='floor_id')
+    seat_id = models.IntegerField(verbose_name='座位', db_column='seat_id')
+    start_date = models.DateTimeField(verbose_name='占用开始时间', db_column='start_date')
+    end_date = models.DateTimeField(verbose_name='占用结束时间', db_column='end_date')
+    status = models.IntegerField(verbose_name='使用状态', db_column='status')
+    is_come = models.IntegerField(verbose_name='应约状态', db_column='is_come')
 
     class Meta:
         managed = False
         db_table = 'seat_date'
+        verbose_name_plural = '预约座位信息表'
 
 
 # 违约记录表
 class UserDefaultRecord(models.Model):
-    user_id = models.IntegerField()
-    count = models.IntegerField()
+    user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    count = models.IntegerField(verbose_name='违约次数', db_column='count')
 
     class Meta:
         managed = False
         db_table = 'user_default_record'
+        verbose_name_plural = '用户违约次数记录表'
 
 
 # 黑名单表
 class BlankLogs(models.Model):
-    user_id = models.IntegerField()
-    status = models.IntegerField()
+    user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    status = models.IntegerField(verbose_name='状态', db_column='status')
 
     class Meta:
         managed = False
         db_table = 'blank_logs'
+        verbose_name_plural = '预约黑名单'
