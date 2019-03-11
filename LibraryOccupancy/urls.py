@@ -20,6 +20,10 @@ from django.conf.urls import url
 
 from .views import *
 
+admin.site.site_header = '图书馆占座管理系统'
+admin.site.site_title = '图书馆占座管理系统'
+admin.site.index_title = '欢迎登陆'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('students/', include('students.urls')),
