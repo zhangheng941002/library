@@ -6,8 +6,8 @@ from django.db import models
 # 楼层信息表
 class FloorBuliding(models.Model):
     id = models.IntegerField(primary_key=True)
-    number = models.IntegerField(max_length=255, verbose_name='楼层号', db_column='number')
-    status = models.IntegerField(max_length=255, verbose_name='占用率', db_column='status')
+    number = models.IntegerField(verbose_name='楼层号', db_column='number')
+    status = models.IntegerField(verbose_name='占用率', db_column='status')
 
     class Meta:
         managed = False
@@ -17,8 +17,12 @@ class FloorBuliding(models.Model):
 
 # 座位表
 class Seat(models.Model):
+    status_choice = (
+        (1, "被占用"),
+        (0, "未被占用"),
+    )
     seat_num = models.IntegerField(verbose_name='座位号', db_column='seat_num')
-    status = models.IntegerField(verbose_name='状态', db_column='status')
+    status = models.IntegerField(verbose_name='状态', db_column='status', choices=status_choice)
 
     class Meta:
         managed = False
@@ -28,14 +32,25 @@ class Seat(models.Model):
 
 # 楼层座位使用情况记录表
 class SeatDate(models.Model):
+    status_choice = (
+        (0, "未被使用"),
+        (1, "已被使用"),
+        (2, "使用结束"),
+    )
+
+    is_come_choice = (
+        (1, "履约"),
+        (2, "旷约"),
+    )
+
     id = models.IntegerField(primary_key=True)
     user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
     floor_id = models.IntegerField(verbose_name='楼层', db_column='floor_id')
     seat_id = models.IntegerField(verbose_name='座位', db_column='seat_id')
     start_date = models.DateTimeField(verbose_name='占用开始时间', db_column='start_date')
     end_date = models.DateTimeField(verbose_name='占用结束时间', db_column='end_date')
-    status = models.IntegerField(verbose_name='使用状态', db_column='status')
-    is_come = models.IntegerField(verbose_name='应约状态', db_column='is_come')
+    status = models.IntegerField(verbose_name='使用状态', db_column='status', choices=status_choice)
+    is_come = models.IntegerField(verbose_name='应约状态', db_column='is_come', choices=is_come_choice)
 
     class Meta:
         managed = False

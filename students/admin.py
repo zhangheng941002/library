@@ -9,5 +9,12 @@ class UserAdmin(admin.ModelAdmin):
     # 每页显示几条
     list_per_page = 10
 
+    # # list_editable 设置默认可编辑字段
+    # list_editable = ['username', 'email']
+
+    # 筛选器
+    list_filter = ("major", "status")  # 过滤器
+    search_fields = ("username", "email")  # 搜索字段
+
 
 admin.site.register(User, UserAdmin)
