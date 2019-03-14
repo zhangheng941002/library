@@ -6,7 +6,9 @@ coreapi==2.3.3
 coreschema==0.0.4
 cryptography==2.2.2
 Django==2.0.6
+django-cors-headers==2.3.0
 django-filter==1.1.0
+django-rest-framework==0.1.0
 django-rest-swagger==2.2.0
 djangorestframework==3.8.2
 idna==2.7
@@ -24,4 +26,3 @@ six==1.11.0
 uritemplate==3.0.0
 urllib3==1.23
 django-mysql==2.4.1
-furl==2.0.0

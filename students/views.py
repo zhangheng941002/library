@@ -94,6 +94,9 @@ def user_seat(request):
         2、在黑名单中的预约不能在预约座位
     """
     data = request.data
+    print('--------------------------------')
+    print(data)
+    print('--------------------------------')
     user_id = data.get("user_id")
     floor_id = data.get("floor_id")
     seat_id = data.get("seat_id")
@@ -107,7 +110,7 @@ def user_seat(request):
     end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
 
     # 先查询预约用户是否在黑名单中
-    blank_logs = BlankLogs.objects.filter(user_id=user_id)
+    blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
 
     if blank_logs.exists():
         return Response({"statusCode": 1, "msg": "您违约已经5次，不能预约座位。"})
@@ -116,33 +119,36 @@ def user_seat(request):
 
     cz = end_date - start_date
     hour = cz.seconds // 3600
+    pd_start_date = start_date
     if hour > 1:
         for i in range(1, hour):
-            pd_time = start_date + datetime.timedelta(hours=1)
+            pd_time = pd_start_date + datetime.timedelta(minutes=30)
+
             data_query = {
                 "floor_id": floor_id,
                 "seat_id": seat_id,
-                "start_date__lte": pd_time,
-                "end_date__gte": pd_time,
+                "start_date__lt": pd_time,
+                "end_date__gt": pd_time,
                 "is_come": 0
             }
+            pd_start_date = pd_time
             seat3 = SeatDate.objects.filter(**data_query)
-
             if seat3.exists():
                 return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
     else:
         data_query = {
             "floor_id": floor_id,
             "seat_id": seat_id,
-            "start_date__lt": start_date,
-            "end_date__gt": start_date,
+            "start_date__lt": start_date + datetime.timedelta(minutes=30),
+            "end_date__gt": start_date + datetime.timedelta(minutes=30),
             "is_come": 0
         }
         seat3 = SeatDate.objects.filter(**data_query)
 
         if seat3.exists():
             return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
-    use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date, end_date=end_date,
+    use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
+                                       end_date=end_date,
                                        status=1, is_come=0)
 
     return Response({"statusCode": 1, "msg": "预约座位成功。"})
@@ -187,7 +193,7 @@ def confirm_seat(request):
     if seat_date:
         return Response({"statusCode": 1, "msg": "签到成功", })
     else:
-        return Response({"statusCode": 0, "msg": "签到失败，没有查到预约信息。" })
+        return Response({"statusCode": 0, "msg": "签到失败，没有查到预约信息。"})
 
 
 # 预约座位，爽约
@@ -199,7 +205,7 @@ def break_promise_seat(request):
     data = request.data
     end_time = datetime.datetime.utcnow() + datetime.timedelta(hours=8)
 
-    seat_date = SeatDate.objects.filter(end_date__lte=end_time,is_come=0)
+    seat_date = SeatDate.objects.filter(end_date__lte=end_time, is_come=0)
     for each in seat_date:
         # 记录违约记录
 

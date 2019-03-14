@@ -59,8 +59,8 @@ def get_seat(request):
     data_query = {
         "floor_id": floor_id,
         "seat_id": seat_id,
-        "start_date__lte": start_date,
-        "end_date__gte": end_date,
+        "start_date__gte": start_date,
+        "end_date__lte": end_date,
     }
 
     if start_date == None:
@@ -69,12 +69,24 @@ def get_seat(request):
         data_query = {
             "floor_id": floor_id,
             "seat_id": seat_id,
-            "start_date__lte": now,
-            "end_date__gte": now,
+            "start_date__lt": now,
+            "end_date__gt": now,
         }
 
     query_dict = {k: v for k, v in data_query.items() if v != None}
-
     seat = SeatDate.objects.filter(**query_dict).filter(status=1)
     serializer = SeatDateSerializer(seat, many=True)
     return Response({"status": 1, "return": serializer.data})
+
+
+@api_view(["GET"])
+def get_all_seat(request):
+    """
+    查询座位
+    """
+    user = Seat.objects.all()
+    count = user.count()
+
+    serializer = SeatSerializer(user, many=True)
+    return Response({"status": 1, "count": count, "return": serializer.data})
+

@@ -71,8 +71,12 @@ class UserDefaultRecord(models.Model):
 
 # 黑名单表
 class BlankLogs(models.Model):
+    status_choice = (
+        (0, "可以预约"),
+        (1, "不能预约"),
+    )
     user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
-    status = models.IntegerField(verbose_name='状态', db_column='status')
+    status = models.IntegerField(verbose_name='状态', db_column='status', choices=status_choice)
 
     class Meta:
         managed = False

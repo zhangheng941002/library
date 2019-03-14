@@ -33,5 +33,6 @@ urlpatterns = [
     url('^user/login/$', login),
     url('^user/logout/$', logout),
     url(r'^user/yanzhengma/$', yanzhengma),
+    url(r'^user/register/$', register),
 
 ]

@@ -81,3 +81,30 @@ def logout(request):
 
     # logout(request)
     return redirect(shouye)
+
+
+# 注册
+def register(request):
+    if request.method == 'GET':
+        return render(request, 'user/register.html')
+    # 是post请求那说明是从form表单中来的注册数据，进行数据库的用户插入
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        email = request.POST.get('email')
+        major = request.POST.get('major')
+
+        # 后台的再次验证密码是防止黑客的，因为浏览器来的数据都是不可信的，因为这里是毕设就弄的复杂了，我们就默认浏览器来的数据是安全的
+        if password != password2:
+            return render(request, 'eyizhuce.html')
+
+        # 验证邮箱是否存在
+        elif User.objects.filter(email=email):
+            return render(request, 'user/register.html', {'ema': '邮箱已存在'})
+
+        u1 = User(username=username, password=password, email=email, major=major, status=1)
+        u1.save()
+        # 注册成功后，跳到登陆页面,
+        return render(request, 'user/success.html')
