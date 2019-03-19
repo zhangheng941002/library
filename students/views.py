@@ -121,7 +121,7 @@ def user_seat(request):
     hour = cz.seconds // 3600
     pd_start_date = start_date
     if hour > 1:
-        for i in range(1, hour):
+        for i in range(1, hour*2+1):
             pd_time = pd_start_date + datetime.timedelta(minutes=30)
 
             data_query = {
@@ -149,6 +149,7 @@ def user_seat(request):
             return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
     use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
                                        end_date=end_date,
+                                       create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
                                        status=1, is_come=0)
 
     return Response({"statusCode": 1, "msg": "预约座位成功。"})

@@ -33,7 +33,7 @@ class Seat(models.Model):
 # 楼层座位使用情况记录表
 class SeatDate(models.Model):
     status_choice = (
-        (0, "未被使用"),
+
         (1, "已被使用"),
         (2, "使用结束"),
     )
@@ -49,6 +49,7 @@ class SeatDate(models.Model):
     seat_id = models.IntegerField(verbose_name='座位', db_column='seat_id')
     start_date = models.DateTimeField(verbose_name='占用开始时间', db_column='start_date')
     end_date = models.DateTimeField(verbose_name='占用结束时间', db_column='end_date')
+    create_date = models.DateTimeField(verbose_name='创建时间', db_column='create_date')
     status = models.IntegerField(verbose_name='使用状态', db_column='status', choices=status_choice)
     is_come = models.IntegerField(verbose_name='应约状态', db_column='is_come', choices=is_come_choice)
 
