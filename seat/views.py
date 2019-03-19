@@ -50,6 +50,9 @@ def get_use_all_seat(request):
     start_date = data.get("start_date", None)
     end_date = data.get("end_date")
 
+    username = request.session.get('username')
+    user_id = request.session.get('user_id')
+
     if start_date:
         start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
     if end_date:
@@ -96,6 +99,24 @@ def get_only_seat_use_info(request):
 
     data = request.data
     print('------------', data)
+    username = request.session.get('username')
+    user_id = request.session.get('user_id')
+    print('-----------', username, user_id, '-----------------')
     resp = SeatDate.objects.filter(**data).filter(status=1)
     serializer = SeatDateSerializer(resp, many=True)
     return Response({"results": serializer.data})
+
+
+@api_view(['GET'])
+def get_myself_use_info(request):
+    """
+    用户查询自己的预约信息
+    :param request: 从session中找登录者的user_id
+    :return: 返回用户预约的所有的可使用的座位信息
+    """
+    data = request.GET
+
+    user_id = request.session.get('user_id')
+    resp = SeatDate.objects.filter(user_id=user_id, is_come=0)
+    serlise = SeatDateSerializer(resp, many=True)
+    return Response({"status": 1, "results": serlise.data})

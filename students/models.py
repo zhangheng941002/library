@@ -9,7 +9,7 @@ class User(models.Model):
         (1, "正常"),
         (0, "注销")
     )
-
+    id = models.CharField(primary_key=True, max_length=12, editable=False)
     username = models.CharField(max_length=255, verbose_name='用户名', db_column='username')
     password = models.CharField(max_length=255, verbose_name='密码', db_column='password')
     email = models.CharField(max_length=255, verbose_name='邮箱', db_column='email')

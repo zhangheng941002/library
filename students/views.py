@@ -39,7 +39,7 @@ def add_user(request):
     user_id = user.id
     blank_count = UserDefaultRecord.objects.create(user_id=user_id, count=0)
     return Response({
-        "statusCode": 1,
+        "status": 1,
         "msg": "成功",
 
     })
@@ -76,7 +76,7 @@ def update_user(request):
     user = User.objects.filter(id=id).update(**data_update)
 
     return Response({
-        "statusCode": 1,
+        "status": 1,
         "msg": "修改信息成功",
 
     })
@@ -104,7 +104,7 @@ def user_seat(request):
     end_date = data.get("end_date", None)
 
     if start_date == None or end_date == None:
-        return Response({"statusCode": 0, "msg": "请出入预约的开始时间和结束时间。"})
+        return Response({"status": 0, "msg": "请出入预约的开始时间和结束时间。"})
 
     start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
     end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
@@ -113,7 +113,7 @@ def user_seat(request):
     blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
 
     if blank_logs.exists():
-        return Response({"statusCode": 1, "msg": "您违约已经5次，不能预约座位。"})
+        return Response({"status": 1, "msg": "您违约已经5次，不能预约座位。"})
 
     # 查询是否被占用
 
@@ -121,7 +121,7 @@ def user_seat(request):
     hour = cz.seconds // 3600
     pd_start_date = start_date
     if hour > 1:
-        for i in range(1, hour*2+1):
+        for i in range(1, hour * 2 + 1):
             pd_time = pd_start_date + datetime.timedelta(minutes=30)
 
             data_query = {
@@ -134,7 +134,7 @@ def user_seat(request):
             pd_start_date = pd_time
             seat3 = SeatDate.objects.filter(**data_query)
             if seat3.exists():
-                return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
+                return Response({"status": 0, "msg": "该时间段已被预约，请重新选择。"})
     else:
         data_query = {
             "floor_id": floor_id,
@@ -146,13 +146,13 @@ def user_seat(request):
         seat3 = SeatDate.objects.filter(**data_query)
 
         if seat3.exists():
-            return Response({"statusCode": 0, "msg": "该时间段已被预约，请重新选择。"})
+            return Response({"status": 0, "msg": "该时间段已被预约，请重新选择。"})
     use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
                                        end_date=end_date,
                                        create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
                                        status=1, is_come=0)
 
-    return Response({"statusCode": 1, "msg": "预约座位成功。"})
+    return Response({"status": 1, "msg": "预约座位成功。"})
 
 
 # 取消预约
@@ -171,14 +171,14 @@ def del_seat(request):
     }
     seat_date = SeatDate.objects.filter(**data_query).update(status=0)
     if seat_date:
-        return Response({"statusCode": 1, "msg": "取消预约成功", })
+        return Response({"status": 1, "msg": "取消预约成功", })
     else:
-        return Response({"statusCode": 0, "msg": "取消预约失败，没有查到预约信息", })
+        return Response({"status": 0, "msg": "取消预约失败，没有查到预约信息", })
 
 
 # 确认入场
 @api_view(["POST"])
-def confirm_seat(request):
+def start_use_seat(request):
     """
 
     """
@@ -192,9 +192,21 @@ def confirm_seat(request):
     }
     seat_date = SeatDate.objects.filter(**data_query).update(is_come=1)
     if seat_date:
-        return Response({"statusCode": 1, "msg": "签到成功", })
+        return Response({"status": 1, "msg": "签到成功", })
     else:
-        return Response({"statusCode": 0, "msg": "签到失败，没有查到预约信息。"})
+        return Response({"status": 0, "msg": "签到失败，没有查到预约信息。"})
+
+
+@api_view(["POST"])
+def end_use_seat(request):
+    """
+    座位使用结束
+    :param request: user_id（用户id），floor_id（楼层id），seat_id（座位id）
+    :return: 结束该座位的使用
+    """
+    data = request.data
+    resp = SeatDate.objects.filter(**data).filter(status=1, is_come=1).update(status=2)
+    return Response({"status": 1, "msg": "座位使用结束"})
 
 
 # 预约座位，爽约
@@ -219,4 +231,4 @@ def break_promise_seat(request):
             blank_log = BlankLogs.objects.filter(user_id=user_id).update(status=1)
     seat_date.update(is_come=2)
 
-    return Response({"statusCode": 1, "msg": "爽约记录成功!"})
+    return Response({"status": 1, "msg": "爽约记录成功!"})

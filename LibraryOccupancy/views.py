@@ -53,13 +53,14 @@ def login(request):
         if yzm.lower() == yzm_sc.lower():
 
             # 通过获得的username 和 password 跟数据库进行匹配
-            if User.objects.filter(username=username, password=password):
+            user_resp = User.objects.filter(username=username, password=password)
+            if user_resp:
                 # 验证通过，转到个人中心,并保存session,用于验证用户是否登陆
                 request.session['username'] = username
                 username = request.session.get('username')
                 user = User.objects.get(username=username)
                 uid = user.id
-                request.session['id'] = uid
+                request.session['user_id'] = uid
                 put_url = request.COOKIES.get('url')
 
                 return render(request, 'shouye_dl.html')

@@ -33,9 +33,9 @@ def set_blank(request):
         log = BlankLogs.objects.get_or_create(**data_set)
 
     if log:
-        return Response({"statusCode": 1, "msg": "拉黑成功成功！", })
+        return Response({"status": 1, "msg": "拉黑成功成功！", })
     else:
-        return Response({"statusCode": 0, "msg": "拉黑失败！", })
+        return Response({"status": 0, "msg": "拉黑失败！", })
 
 
 # 取消黑名单
@@ -51,4 +51,4 @@ def del_blank(request):
 
     blank_count = UserDefaultRecord.objects.filter(user_id=user_id).update(count=0)
 
-    return Response({"statusCode": 1, "msg": "取消拉黑成功！", })
+    return Response({"status": 1, "msg": "取消拉黑成功！", })
