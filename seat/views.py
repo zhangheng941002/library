@@ -86,7 +86,8 @@ def get_use_all_seat(request):
             data_list.append({"seat_id": int(seat_id), "status": 1})
         else:
             data_list.append({"seat_id": int(seat_id), "status": 0})
-    return Response({"results": data_list})
+    return render(request,'25gongge/index.html', {"results": data_list})
+    # return Response({"results": data_list})
 
 
 @api_view(["POST"])
