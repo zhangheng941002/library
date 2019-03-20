@@ -15,6 +15,7 @@ from .islogin import islogin
 
 
 # 通过名称查询学生
+@islogin
 @api_view(["GET"])
 def user_info(request):
     user_id = request.session.get('user_id')
