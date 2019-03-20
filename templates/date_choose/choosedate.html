@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block sousuo %}
+
+{% endblock %}
+
+{% block css %}
+
+    <style type="text/css">
+
+        #div1 {
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+        }
+
+        #div1 form {
+            border: 1px solid #aaa;
+            width: 500px;
+            padding: 25px 20px 25px 100px;
+            background: #eee;
+            border-radius: 7px;
+            margin: 0 auto;
+        }
+
+        .syzm {
+            margin-left: 25px;
+            margin-bottom: -10px;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            background: yellowgreen;
+            width: 55px;
+            height: 30px;
+            text-align: center;
+        }
+
+        #dl {
+            margin: 25px 0 0 50px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            font-size: 16px;
+        }
+
+        .pwd-box {
+            position: relative;
+        }
+
+        .error {
+            position: absolute;
+            right: 0;
+            top: 3px;
+            display: none;
+            color: #f00;
+        }
+
+        .error-user {
+            position: absolute;
+            top: 3px;
+            right: 0;
+            color: #f00;
+        }
+
+        .email {
+            position: relative;
+        }
+
+        .email-error {
+            position: absolute;
+            right: 0;
+            top: 3px;
+            color: #f00;
+        }
+
+        .shuaxin {
+            width: 40px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            margin-left: 15px;
+            display: inline-block;
+            border: 1px solid #369;
+            background: #eee;
+            border-radius: 5px;
+
+        }
+
+        .shuaxin:hover {
+            text-decoration: none;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        .demo-input {
+            padding-left: 10px;
+            height: 38px;
+            min-width: 262px;
+            line-height: 38px;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+
+    </style>
+
+{% endblock %}
+
+
+{% block js %}
+    {% load static from staticfiles %}
+    <script type="text/javascript" src="{% static 'laydate/laydate.js' %}"></script>
+    <script>
+        lay('#version').html('-v' + laydate.v);
+
+        //执行一个laydate实例
+
+        //时间选择器
+        laydate.render({
+            elem: '#test5'
+            , type: 'datetime'
+        })
+    laydate.render({
+            elem: '#test6'
+            , type: 'datetime'
+        })
+    function stumit(){
+
+
+    $.agax({
+        url:"",
+        data:"",
+        success:function (data) {
+            if( data.status == 200){
+                alert("请求成功")
+            }else {
+                alert("请求失败")
+            }
+        }
+    })
+        }
+    </script>
+{% endblock %}
+
+{% block denglu %}
+  <li><a href="/user/logout" >退出</a></li>
+{% endblock %}
+
+{% block reg %}
+    <div id="div1">
+
+        <form action="/students/user_seat" method="post">
+            {% csrf_token %}
+            <div style="position:relative;">
+                楼　　层： <input type="text" name="floor_id" id="user_name" value="{{ un }}"></div>
+            </br>
+
+            <div class="pwd-box">
+                座　　位：<input type="text" name="seat_id" id="" seat_id>　<span class="error">两次密码不一样</span></div>
+            <br>
+            开始时间：<input type="text" name="start_date" class="demo-input" placeholder="请选择" id="test5"></br></br>
+            结束时间：<input type="text" name="end_date" class="demo-input" placeholder="请选择" id="test6"></br></br>
+
+            </br>
+
+            <input id="dl" name="dl" type="submit" onclick="stumit()" value="预约" style="width: 150px">
+        </form>
+
+
+    </div>
+
+
+
+{% endblock reg %}

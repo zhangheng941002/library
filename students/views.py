@@ -11,6 +11,8 @@ from .serializers import UserSerializer
 import json
 import datetime
 
+from .islogin import islogin
+
 
 # 通过名称查询学生
 @api_view(["GET"])
@@ -47,6 +49,7 @@ def add_user(request):
 
 # 修改用户信息
 @api_view(["POST"])
+@islogin
 def update_user(request):
     """
     修改、删除
@@ -83,7 +86,8 @@ def update_user(request):
 
 
 # 用户预约座位
-@api_view(["POST"])
+# @api_view(["POST"])
+@islogin
 def user_seat(request):
     """
     选择楼层，选择座位，选择时间段进行预约
@@ -93,66 +97,78 @@ def user_seat(request):
         1、只能对一个周内的座位进行预约占座
         2、在黑名单中的预约不能在预约座位
     """
-    data = request.data
-    print('--------------------------------')
-    print(data)
-    print('--------------------------------')
-    user_id = data.get("user_id")
-    floor_id = data.get("floor_id")
-    seat_id = data.get("seat_id")
-    start_date = data.get("start_date", None)
-    end_date = data.get("end_date", None)
+    if request.method == "GET":
+        user_id = request.session.get('user_id')
+        if user_id:
+            return render(request, 'date_choose/choosedate.html')
+        else:
+            return render(request, 'date_choose/nochoosedate.html')
 
-    if start_date == None or end_date == None:
-        return Response({"status": 0, "msg": "请出入预约的开始时间和结束时间。"})
+    # form 表单post请求过来的
 
-    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
-    end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
+    if request.method == "POST":
 
-    # 先查询预约用户是否在黑名单中
-    blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
+        data = request.POST
 
-    if blank_logs.exists():
-        return Response({"status": 1, "msg": "您违约已经5次，不能预约座位。"})
+        user_id = request.session.get('user_id')
 
-    # 查询是否被占用
+        floor_id = data.get("floor_id")
+        seat_id = data.get("seat_id")
+        start_date = data.get("start_date", None)
+        end_date = data.get("end_date", None)
 
-    cz = end_date - start_date
-    hour = cz.seconds // 3600
-    pd_start_date = start_date
-    if hour > 1:
-        for i in range(1, hour * 2 + 1):
-            pd_time = pd_start_date + datetime.timedelta(minutes=30)
+        if start_date == None or end_date == None or len(start_date) == 0 or len(end_date) == 0:
+            return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "请出入预约的开始时间和结束时间。"})
 
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
+
+        # 先查询预约用户是否在黑名单中
+        blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
+
+        if blank_logs.exists():
+            return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "您违约已经5次，不能预约座位。"})
+
+        # 查询是否被占用
+
+        cz = end_date - start_date
+        hour = cz.seconds // 3600
+        pd_start_date = start_date
+        if hour > 1:
+            for i in range(1, hour * 2 + 1):
+                pd_time = pd_start_date + datetime.timedelta(minutes=30)
+
+                data_query = {
+                    "floor_id": floor_id,
+                    "seat_id": seat_id,
+                    "start_date__lt": pd_time,
+                    "end_date__gt": pd_time,
+                    "is_come": 0
+                }
+                pd_start_date = pd_time
+                seat3 = SeatDate.objects.filter(**data_query)
+                if seat3.exists():
+                    return render(request, 'date_choose/choosedate_success.html',
+                                  {"status": 1, "msg": "该时间段已被预约，请重新选择。"})
+
+        else:
             data_query = {
                 "floor_id": floor_id,
                 "seat_id": seat_id,
-                "start_date__lt": pd_time,
-                "end_date__gt": pd_time,
+                "start_date__lt": start_date + datetime.timedelta(minutes=30),
+                "end_date__gt": start_date + datetime.timedelta(minutes=30),
                 "is_come": 0
             }
-            pd_start_date = pd_time
             seat3 = SeatDate.objects.filter(**data_query)
+
             if seat3.exists():
-                return Response({"status": 0, "msg": "该时间段已被预约，请重新选择。"})
-    else:
-        data_query = {
-            "floor_id": floor_id,
-            "seat_id": seat_id,
-            "start_date__lt": start_date + datetime.timedelta(minutes=30),
-            "end_date__gt": start_date + datetime.timedelta(minutes=30),
-            "is_come": 0
-        }
-        seat3 = SeatDate.objects.filter(**data_query)
+                return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "该时间段已被预约，请重新选择。"})
 
-        if seat3.exists():
-            return Response({"status": 0, "msg": "该时间段已被预约，请重新选择。"})
-    use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
-                                       end_date=end_date,
-                                       create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
-                                       status=1, is_come=0)
-
-    return Response({"status": 1, "msg": "预约座位成功。"})
+        use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
+                                           end_date=end_date,
+                                           create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
+                                           status=1, is_come=0)
+        return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "预约成功"})
 
 
 # 取消预约

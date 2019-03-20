@@ -6,7 +6,12 @@ from students.models import User
 
 # 首页
 def shouye(request):
-    return render(request, 'shouye.html')
+    user_id = request.session.get('user_id')
+    if user_id:
+        return render(request, 'shouye_dl.html')
+    else:
+        return render(request, 'shouye.html')
+
 
 
 # 搜索

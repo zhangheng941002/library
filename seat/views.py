@@ -24,6 +24,8 @@ def get_floor(request):
     page_size = data.get("page_size", 10)
     page = data.get("page", 1)
 
+    session_user_id = request.session.get('user_id')
+
     limit, offset = get_page_limit(page_size, page)
 
     data_query = {
@@ -34,7 +36,12 @@ def get_floor(request):
     count = user.count()
     user = user[limit: offset]
     serializer = FloorBulidingSerializer(user, many=True)
-    return Response({"status": 1, "count": count, "return": serializer.data})
+    # return Response({"status": 1, "count": count, "return": serializer.data})
+    if session_user_id:
+        return render(request, '25gongge/floor.html', {"results": user})
+    else:
+        return render(request, '25gongge/nofloor.html', {"results": user})
+
 
 
 @api_view(["GET"])

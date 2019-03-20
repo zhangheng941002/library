@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static '25gongge/base.css' %}"/>
+
+{% endblock %}
+
+{% block js %}
+    {% load static from staticfiles %}
+    <script type="text/javascript" src="{% static '25gongge/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static '25gongge/jquery.easing.js' %}"></script>
+    <script type="text/javascript" src="{% static '25gongge/base.js' %}"></script>
+{% endblock %}
+
+{% block denglu %}
+  <li><a href="/user/logout" >退出</a></li>
+{% endblock %}
+
+{% block center %}
+    <div class="s-mod w1100" style="height:710px">
+        <div class="s-mod-loding"><img src="images/loading_d.gif"></div>
+        <ul>
+            {% for each in results %}
+                {% if each.id == 1 %}
+                    <li class="s-mod-item" w="200" h="127" l="0" t="0" bg="#e8443a" cbg="#d92e24">
+                        <div class="s-mod-wrap">
+                            <div class="s-mod-def"><span>楼层：{{ bg }}{{ each.id }}</span></div>
+                            <a style="text-decoration:none;color:white;font-weight:bold;" href="/seats/get_use_all_seat?floor_id=1"><div class="s-mod-cur"><span>查询 一楼 目前预约信息</span></div></a>
+                        </div>
+                    </li>
+
+
+                {% endif %}
+
+                {% if each.id == 2 %}
+                    <li class="s-mod-item" w="200" h="127" l="278" t="0" bg="#e8443a" cbg="#922a7b">
+                        <div class="s-mod-wrap">
+                            <div class="s-mod-def"><span>楼层：{{ each.id }}</span></div>
+                            <a style="text-decoration:none;color:white;font-weight:bold;" href="/seats/get_use_all_seat?floor_id=2"><div class="s-mod-cur"><span>查询 二楼 目前预约信息</span></div></a>
+                        </div>
+                    </li>
+
+                {% endif %}
+
+                {% if each.id == 3 %}
+                    <li class="s-mod-item" w="200" h="127" l="556" t="0" bg="#e8443a" cbg="#1182BA">
+                        <div class="s-mod-wrap">
+                            <div class="s-mod-def"><span>楼层：{{ each.id }}</span></div>
+                            <a style="text-decoration:none;color:white;font-weight:bold;" href="/seats/get_use_all_seat?floor_id=3"><div class="s-mod-cur"><span>查询 三楼 目前预约信息</span></div></a>
+                        </div>
+                    </li>
+
+                {% endif %}
+
+                {% if each.id == 4 %}
+                    <li class="s-mod-item" w="200" h="127" l="834" t="0" bg="#e8443a" cbg="#EAC203">
+                        <div class="s-mod-wrap">
+                            <div class="s-mod-def"><span>楼层：{{ each.id }}</span></div>
+                            <a style="text-decoration:none;color:white;font-weight:bold;" href="/seats/get_use_all_seat?floor_id=4"><div class="s-mod-cur"><span>查询 四楼 目前预约信息</span></div></a>
+                        </div>
+                    </li>
+
+                {% endif %}
+
+                {% if each.id == 5 %}
+                    <li class="s-mod-item" w="200" h="127" l="1112" t="0" bg="#e8443a" cbg="#09578E">
+                        <div class="s-mod-wrap">
+                            <div class="s-mod-def"><span>楼层：{{ each.id }}</span></div>
+                            <a style="text-decoration:none;color:white;font-weight:bold;" href="/seats/get_use_all_seat?floor_id=5"><div class="s-mod-cur"><span>查询 五楼 目前预约信息</span></div></a>
+                        </div>
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
