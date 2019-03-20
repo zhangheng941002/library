@@ -16,6 +16,16 @@ from .islogin import islogin
 
 # 通过名称查询学生
 @api_view(["GET"])
+def user_info(request):
+    user_id = request.session.get('user_id')
+
+    user = User.objects.filter(status=1).filter(id=user_id)[0]
+    serializer = UserSerializer(user, many=True)
+    return render(request, 'user/user_info.html', {"user": user})
+
+
+# 通过名称查询学生
+@api_view(["GET"])
 def get_user(request):
     data = request.GET
     username = data.get("username", None)
@@ -48,7 +58,7 @@ def add_user(request):
 
 
 # 修改用户信息
-@api_view(["POST"])
+# @api_view(["POST"])
 @islogin
 def update_user(request):
     """
@@ -61,22 +71,32 @@ def update_user(request):
                       status：删除为 0
 
     """
-    data = request.data
-    id = data.get("id")
+    if request.method == 'GET':
+        return render(request, 'user/update_pwd.html',)
+    data = request.POST
+    id = request.session.get('user_id')
     username = data.get("username")
-    password = data.get("password")
+    password1 = data.get("password1")
+    password2 = data.get("password2")
     email = data.get("email")
     major = data.get("major")
     status = data.get("status")
+    if password1:
+        if password1 != password2:
+            return render(request, 'user/update_pwd_info.html', {"msg": "两次密码不一致"})
 
     data_update = {
         "username": username,
-        "password": password,
+        "password": password1,
         "email": email,
         "major": major,
         "status": status,
     }
-    user = User.objects.filter(id=id).update(**data_update)
+    query_dict = {k: v for k, v in data_update.items() if v != None}
+
+    user = User.objects.filter(id=id).update(**query_dict)
+
+    return render(request, 'user/update_pwd_info.html', {"msg": "密码修改完成"})
 
     return Response({
         "status": 1,
