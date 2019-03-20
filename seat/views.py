@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.transaction import atomic
 from .models import Seat, SeatDate, BlankLogs, FloorBuliding
+from students.models import User
 from .serializers import SeatSerializer, SeatDateSerializer, BlankLogsSerializer, FloorBulidingSerializer
 import json
 import datetime
@@ -76,18 +77,44 @@ def get_use_all_seat(request):
             query_data["seat_id"] = i
             res = SeatDate.objects.filter(**query_data).filter(status=1)
             if res:
-                data_list.append({"seat_id": i, "status": 1})
+                user_id = res[0].user_id
+                user = User.objects.get(id=user_id)
+                user_name = user.username
+                user_cl = user_name[0] + (len(user_name) - 1) * "*"
+                major = user.major
+                start_date = str(res[0].start_date).replace("T", " ")
+                end_date = str(res[0].end_date).replace("T", " ")
+                data_list.append({"status": 1, "floor_id": floor_id, "seat_id": i,
+                                  "start_date": start_date,
+                                  "end_date": end_date,
+                                  "msg": "该座位目前已被预约，预约人：{}，预约时间段：{}-{}".format(user_cl, start_date, end_date),
+                                  "user_name": user_cl, "major": major})
             else:
-                data_list.append({"seat_id": i, "status": 0})
+                data_list.append(
+                    {"status": 0, "floor_id": int(floor_id), "seat_id": i, "start_date": "", "end_date": "",
+                     "msg": "该座位目前未被预约"})
     else:
         query_data["seat_id"] = seat_id
         res = SeatDate.objects.filter(**query_data).filter(status=1)
         if res:
-            data_list.append({"seat_id": int(seat_id), "status": 1})
+            user_id = res[0].user_id
+            user = User.objects.get(id=user_id)
+            user_name = user.username
+            user_cl = user_name[0] + (len(user_name) - 1) * "*"
+            major = user.major
+            start_date = str(res[0].start_date).replace("T", " ")
+            end_date = str(res[0].end_date).replace("T", " ")
+            data_list.append({"status": 1, "floor_id": floor_id, "seat_id": int(seat_id),
+                              "start_date": start_date,
+                              "end_date": end_date,
+                              "msg": "该座位目前已被预约，预约人：{}，预约时间段：{}-{}".format(user_cl, start_date, end_date),
+                              "user_name": user_cl, "major": major})
         else:
-            data_list.append({"seat_id": int(seat_id), "status": 0})
-    return render(request,'25gongge/index.html', {"results": data_list})
-    # return Response({"results": data_list})
+            data_list.append(
+                {"status": 0, "floor_id": int(floor_id), "seat_id": int(seat_id), "start_date": "", "end_date": "",
+                 "msg": "该座位目前未被预约"})
+    return render(request, '25gongge/index.html', {"results": data_list, "count": len(data_list)})
+    # return Response({"results": data_list, "count": len(data_list)})
 
 
 @api_view(["POST"])

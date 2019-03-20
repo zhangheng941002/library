@@ -1,168 +1,480 @@
 {% extends 'base.html' %}
 
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>宫格展示</title>
-</head>
 {% block css %}
     {% load static from staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static '25gongge/base.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '25gongge/base.css' %}"/>
 
 {% endblock %}
 
 {% block js %}
     {% load static from staticfiles %}
-<script type="text/javascript" src="{% static '25gongge/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static '25gongge/jquery.easing.js' %}"></script>
-<script type="text/javascript" src="{% static '25gongge/base.js' %}"></script>
+    <script type="text/javascript" src="{% static '25gongge/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static '25gongge/jquery.easing.js' %}"></script>
+    <script type="text/javascript" src="{% static '25gongge/base.js' %}"></script>
 {% endblock %}
 
 
 
 {% block center %}
-<div class="s-mod w1100" style="height:710px">
-	<div class="s-mod-loding"><img src="images/loading_d.gif"></div>
-	<ul>
-		<li class="s-mod-item" w="266" h="127" l="0" t="0" bg="#e8443a" cbg="#d92e24">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>1.商品展示管理模块</span></div>
-				<div class="s-mod-cur"><span>自主添加产品类别，不限级数。后台对产品实现增、查、删、改等功能。前端对产品进行列表展示、详细页面展示。详细页面包含产品小图、大图、详细参数、文字内容介绍、多图滚动展示、图片放大展示、关联资讯介绍展示。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="278" t="0" bg="#aa5096" cbg="#922a7b">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>2.会员注册、登陆管理模块</span></div>
-				<div class="s-mod-cur"><span>管理会员注册信息、会员列表，建立会员等级权限组，分配会员至权限组，然后根据权限使用网站的其它各个功能模块。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="266" l="556" t="0" bg="#1CA1E2" cbg="#1182BA">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>3.会员基本资料管理模块</span></div>
-				<div class="s-mod-cur"><span>对会员注册的基本资料进行查看、修改。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="695" t="0" bg="#FFD302" cbg="#EAC203">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>4.商品多条件组合搜索管理模块</span></div>
-				<div class="s-mod-cur"><span>在产品列表页面实现对产品按照价格、尺寸、日期、型号、产地等多条件字段组合搜索功能。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="834" t="0" bg="#0C6DB2" cbg="#09578E">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>5.会员权限设置管理模块</span></div>
-				<div class="s-mod-cur"><span>管理会员注册信息、会员列表，建立会员等级权限组，分配会员至权限组，然后根据权限使用网站的其它各个功能模块。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="0" t="139" bg="#9B4C13" cbg="#8F4108">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>6.商品订单下载管理模块</span></div>
-				<div class="s-mod-cur"><span>将企业产品手册、说明书、宣传画册等资料上传至网站，用户通过网站下载，可分用户权限实现下载控制，需与会员管理系统配合。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="139" t="139" bg="#8DC027" cbg="#76A31B">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>7.商品数据导入/导出管理模块</span></div>
-				<div class="s-mod-cur"><span>在网站管理平台对产品型号、类别、价格；产品图片等数据进行批量上传，批量下载的管理。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="278" t="139" bg="#FF0198" cbg="#D80683">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>8.产品数据导入导出管理模块</span></div>
-				<div class="s-mod-cur"><span>在网站管理平台对产品型号、类别、价格；产品图片等数据进行批量上传，批量下载的管理。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="695" t="139" bg="#4837cd" cbg="#3c2bb7">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>9.购物车管理模块</span></div>
-				<div class="s-mod-cur"><span>包含在线订购单提交，可在线提交单个或连续多个订单，在线支付、物流管理、退换货管理。必须与会员系统配合。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="973" t="139" bg="#2b7ab7" cbg="#1e669d">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>10.QQ营销咨询3合1管理模块</span></div>
-				<div class="s-mod-cur"><span>可以把QQ、MSN、旺旺做成一个3合1的滚动窗口，用户点击可与企业洽谈生意，通过此系统大大方便访客与企业的交流。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="266" l="0" t="278" bg="#33ac5b" cbg="#209747">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>11.流量统计管理模块</span></div>
-				<div class="s-mod-cur"><span>集成第三方提供的网站流量统计系统，通过统计可以可看网站的访问量，以及互联网品牌指数。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="139" t="278" bg="#bf7030" cbg="#ae6021">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>12.新闻资讯管理模块</span></div>
-				<div class="s-mod-cur"><span>不限层级添加新闻资讯类别，可自主管理公司简介、公司新闻、产品新闻、行业知识等。在后台进行增、删、查、改等一系列操作。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="266" l="417" t="278" bg="#914ae2" cbg="#7d33d0">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>13.在线咨询管理模块</span></div>
-				<div class="s-mod-cur"><span>实现网站前台页面提交咨询内容及联系方式，后台查询咨询内容及咨询人情况，并进行在线咨询的回复，前台页面自动显示。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="266" l="556" t="278" bg="#e42ec4" cbg="#cf19af">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>14.会员中心管理模块</span></div>
-				<div class="s-mod-cur"><span>实现会员填写字段注册，对填写内容进行有效性校验。 根据注册信息的用户名、密码、验证码进行会员登陆。 对会员注册的基本资料进行查看、修改。 管理会员注册信息、会员列表，建立会员等级权限组，分配会员至权限组，然后根据权限使用网站的其它各个功能模块。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="834" t="278" bg="#4392ec" cbg="#206fc8">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>15.友情链接管理模块</span></div>
-				<div class="s-mod-cur"><span>与客户网站交换文字链接、图片链接均可，通过链接提升网站的PR值，有利于SEO优化排名。</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="139" t="417" bg="#20c8a6" cbg="#13af90">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>16.会员管理模块</span></div>
-				<div class="s-mod-cur"><span>会员短信、邮箱校验模,块 会员短信、邮箱验模块,密码问题保护模块,红包推,广管理模块 ,会员API接口.</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="834" t="417" bg="#a3ca1d" cbg="#8bb00c">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>17.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="0" t="556" bg="#d8493a" cbg="#ba3122">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>18.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="266" l="278" t="417" bg="#c44a8c" cbg="#b72b77">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>19.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="266" h="127" l="417" t="556" bg="#8e48f7" cbg="#7026df">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>20.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="695" t="556" bg="#7a92c2" cbg="#5876b2">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>21.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="127" l="834" t="556" bg="#7f9861" cbg="#658242">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>22.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-		<li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#876f5a" cbg="#755a41">
-			<div class="s-mod-wrap">
-				<div class="s-mod-def"><span>23.订单管理模块</span></div>
-				<div class="s-mod-cur"><span>订单管理模块</span></div>
-			</div>
-		</li>
-	</ul>
-</div>
+    <div class="s-mod w1100" style="height:710px">
+        <div class="s-mod-loding"><img src="images/loading_d.gif"></div>
+        <ul>
+            {% for each in results %}
+                {% if each.seat_id == 1 %}
+                    {% if each.status == 1 %}
+                        <li id="{{ each.seat_id }}" value="{{ each.status }}" class="s-mod-item" w="266" h="127" l="0"
+                            t="0"
+                            bg="#e8443a" cbg="#d92e24">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ bg }}{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li id="{{ each.seat_id }}" value="{{ each.status }}" class="s-mod-item" w="266" h="127" l="0"
+                            t="0"
+                            bg="#000000" cbg="#d92e24">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ bg }}{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
+
+                {% if each.seat_id == 2 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="278" t="0" bg="#e8443a" cbg="#922a7b">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="278" t="0" bg="#000000" cbg="#922a7b">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 3 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="556" t="0" bg="#e8443a" cbg="#1182BA">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="556" t="0" bg="#000000" cbg="#1182BA">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 4 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="695" t="0" bg="#e8443a" cbg="#EAC203">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="695" t="0" bg="#000000" cbg="#EAC203">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 5 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="834" t="0" bg="#e8443a" cbg="#09578E">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="834" t="0" bg="#000000" cbg="#09578E">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if each.seat_id == 6 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="0" t="139" bg="#e8443a" cbg="#8F4108">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="0" t="139" bg="#000000" cbg="#8F4108">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 7 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="139" t="139" bg="#e8443a" cbg="#76A31B">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="139" t="139" bg="#000000" cbg="#76A31B">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 8 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="278" t="139" bg="#e8443a" cbg="#D80683">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="278" t="139" bg="#000000" cbg="#D80683">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 9 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="695" t="139" bg="#e8443a" cbg="#3c2bb7">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="695" t="139" bg="#000000" cbg="#3c2bb7">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 10 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="973" t="139" bg="#e8443a" cbg="#1e669d">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="973" t="139" bg="#000000" cbg="#1e669d">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 11 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="0" t="278" bg="#e8443a" cbg="#209747">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="0" t="278" bg="#000000" cbg="#209747">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 12 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="139" t="278" bg="#e8443a" cbg="#ae6021">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="139" t="278" bg="#000000" cbg="#ae6021">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 13 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="417" t="278" bg="#e8443a" cbg="#7d33d0">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="417" t="278" bg="#000000" cbg="#7d33d0">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 14 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="266" l="556" t="278" bg="#e8443a" cbg="#cf19af">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="266" l="556" t="278" bg="#000000" cbg="#cf19af">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 15 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="834" t="278" bg="#e8443a" cbg="#206fc8">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="834" t="278" bg="#000000" cbg="#206fc8">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 16 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="139" t="417" bg="#e8443a" cbg="#13af90">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="139" t="417" bg="#000000" cbg="#13af90">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 17 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="834" t="417" bg="#e8443a" cbg="#8bb00c">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="834" t="417" bg="#000000" cbg="#8bb00c">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
+
+                {% if each.seat_id == 18 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="0" t="556" bg="#e8443a" cbg="#ba3122">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="0" t="556" bg="#000000" cbg="#ba3122">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 19 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="278" t="417" bg="#e8443a" cbg="#b72b77">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="278" t="417" bg="#000000" cbg="#b72b77">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 20 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="266" h="127" l="417" t="556" bg="#e8443a" cbg="#7026df">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="266" h="127" l="417" t="556" bg="#000000" cbg="#7026df">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 21 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="695" t="556" bg="#e8443a" cbg="#5876b2">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="695" t="556" bg="#000000" cbg="#5876b2">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 22 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="127" l="834" t="556" bg="#e8443a" cbg="#658242">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="127" l="834" t="556" bg="#000000" cbg="#658242">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if each.seat_id == 23 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#e8443a" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#000000" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if each.seat_id == 24 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#e8443a" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#000000" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if each.seat_id == 25 %}
+                    {% if each.status == 1 %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#e8443a" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="s-mod-item" w="127" h="266" l="973" t="417" bg="#000000" cbg="#755a41">
+                            <div class="s-mod-wrap">
+                                <div class="s-mod-def"><span>座位：{{ each.seat_id }}</span></div>
+                                <div class="s-mod-cur"><span>信息：{{ each.msg }}</span></div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}
