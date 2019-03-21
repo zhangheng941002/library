@@ -16,3 +16,6 @@ urlpatterns.append(url(r'del_seat', del_seat))  # 取消预约
 urlpatterns.append(url(r'confirm_seat', start_use_seat))  # 确认入场,预约座位开始使用
 urlpatterns.append(url(r'break_promise_seat', break_promise_seat))  # 预约座位，爽约
 urlpatterns.append(url(r'end_use_seat', end_use_seat))  # 预约座位使用结束
+
+
+urlpatterns.append(url(r'query_info', query_info))  # 查询座位的预约信息

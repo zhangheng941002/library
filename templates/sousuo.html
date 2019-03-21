@@ -73,20 +73,16 @@
 {% block reg %}
     <div id="div1">
 
-        <form action="/students/update_user" method="post">
+        <form action="/students/query_info" method="post">
             {% csrf_token %}
-            <div style="position:relative;color:red">
-                {{ msg }}</div>
             <div style="position:relative;">
-                姓　　名： <input type="text" name="username" id="user_name" value="{{ user.username }}" style="text-align:center"></div>
+                楼　　层： <input type="text" name="floor_id" id="floor_id" "></div>
             </br>
 
             <div class="pwd-box">
-                邮　　箱：<input type="text" name="email" id=""  value="{{ user.email }}" style="text-align:center">　</div>
+                座　　位：<input type="text" name="seat_id" id="seat_id"  >　</div>
             <br>
-            <div class="pwd-box">
-                专　　业：<input type="text" name="major" id="" value="{{ user.major }}" style="text-align:center">　</div>
-            </br>
+
 
             <input id="dl" name="tj" type="submit" value="确定" style="width: 150px">
         </form>

@@ -19,9 +19,11 @@ def set_blank(request):
     """
     data = request.data
     user_id = data.get("user_id")
+    username = data.get("username")
 
     data_set = {
         "user_id": user_id,
+        "username": username,
         "status": 1
 
     }

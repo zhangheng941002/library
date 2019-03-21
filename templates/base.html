@@ -123,7 +123,7 @@
                     <li class="active"><a href="/">首页 <span class="sr-only">(current)</span></a></li>
                     <li><a href="/seats/get_floor">楼层信息</a></li>
                     <li><a href="/students/user_seat">座位预约</a></li>
-                    <li><a href="#">查询</a></li>
+                    <li><a href="/students/query_info">查询</a></li>
                     <li><a href="/students/user_info">个人中心</a></li>
                     <li><a href="/students/update_user">修改密码</a></li>
                     <li><a href="#"></a></li>
@@ -142,35 +142,35 @@
 <div class="row" style="margin:0;">
 
 
-{% block sousuo %}
-
-
-  <div class="col-lg-6" style="margin:0 auto; width:100%">
-    <div class="input-group selt-box">
-        <form action="/select/" method="post">
-                {% csrf_token %}
-              <!-- <input type="text" class="form-control" name="flxx" placeholder="请输入你要查找的字段..."> -->
-              <select class="select" name="flxx" id="fl">
-                <option value="0">请选择你要搜素的分类</option>
-                <option value="成本节约">成本节约</option>
-                <option value="员工激励">员工激励</option>
-                <option value="质量改善">质量改善</option>
-                <option value="设备改善">设备改善</option>
-                <option value="安全改善">安全改善</option>
-                <option value="环境改善">环境改善</option>
-                <option value="管理改善">管理改善</option>
-                <option value="其他">其他</option>
-              </select>
-
-
-              <input type="submit" name="sousuo" value="搜索" class="selt-btn">
-
-        </form>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-
-{% endblock %}
+{#{% block sousuo %}#}
+{##}
+{##}
+{#  <div class="col-lg-6" style="margin:0 auto; width:100%">#}
+{#    <div class="input-group selt-box">#}
+{#        <form action="/select/" method="post">#}
+{#                {% csrf_token %}#}
+{#              <!-- <input type="text" class="form-control" name="flxx" placeholder="请输入你要查找的字段..."> -->#}
+{#              <select class="select" name="flxx" id="fl">#}
+{#                <option value="0">请选择你要搜素的分类</option>#}
+{#                <option value="成本节约">成本节约</option>#}
+{#                <option value="员工激励">员工激励</option>#}
+{#                <option value="质量改善">质量改善</option>#}
+{#                <option value="设备改善">设备改善</option>#}
+{#                <option value="安全改善">安全改善</option>#}
+{#                <option value="环境改善">环境改善</option>#}
+{#                <option value="管理改善">管理改善</option>#}
+{#                <option value="其他">其他</option>#}
+{#              </select>#}
+{##}
+{##}
+{#              <input type="submit" name="sousuo" value="搜索" class="selt-btn">#}
+{##}
+{#        </form>#}
+{#    </div><!-- /input-group -->#}
+{#  </div><!-- /.col-lg-6 -->#}
+{#</div><!-- /.row -->#}
+{##}
+{#{% endblock %}#}
 
 {% endblock %}
 {% block reg %} {% endblock %}

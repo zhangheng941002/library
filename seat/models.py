@@ -39,12 +39,14 @@ class SeatDate(models.Model):
     )
 
     is_come_choice = (
+        (0, "未处理"),
         (1, "履约"),
         (2, "旷约"),
     )
 
     id = models.IntegerField(primary_key=True)
     user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    username = models.CharField(max_length=255, verbose_name='用户名', db_column='username')
     floor_id = models.IntegerField(verbose_name='楼层', db_column='floor_id')
     seat_id = models.IntegerField(verbose_name='座位', db_column='seat_id')
     start_date = models.DateTimeField(verbose_name='占用开始时间', db_column='start_date')
@@ -62,6 +64,7 @@ class SeatDate(models.Model):
 # 违约记录表
 class UserDefaultRecord(models.Model):
     user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    username = models.CharField(max_length=255, verbose_name='用户名', db_column='username')
     count = models.IntegerField(verbose_name='违约次数', db_column='count')
 
     class Meta:
@@ -77,6 +80,7 @@ class BlankLogs(models.Model):
         (1, "不能预约"),
     )
     user_id = models.IntegerField(verbose_name='用户', db_column='user_id')
+    username = models.CharField(max_length=255, verbose_name='用户名', db_column='username')
     status = models.IntegerField(verbose_name='状态', db_column='status', choices=status_choice)
 
     class Meta:

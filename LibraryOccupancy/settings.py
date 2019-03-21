@@ -128,7 +128,7 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = False
 
 USE_L10N = False
-
+DATETIME_FORMAT = 'Y-m-d H:i:s'
 USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)

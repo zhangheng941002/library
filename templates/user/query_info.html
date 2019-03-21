@@ -7,27 +7,27 @@
 
 {% endblock %}
 
-{% block js %}
-<script type="text/javascript">
-    var sug_val = document.querySelectorAll(".chuli .sug-val");
-    var yes = document.querySelectorAll(".chuli .yes");
-    var sug_val_j = document.querySelectorAll(".jieguo .sug-val");
-    var yes_j = document.querySelectorAll(".jieguo .yes");
-
-    for(var i= 0; i< sug_val.length; i++){
-
-      yes[i].value = (sug_val[i].value === "True")? "已审批" : "未审批";
-      /*if(sug_val[i].value === "True"){
-        yes[i].value = "已审批";
-      }else{
-        yes[i].value = "未审批";
-      }*/
-      yes_j[i].value = (sug_val_j[i].value === "True")? "已通过" : "未通过";
-   
-    }
-
-</script>
-{% endblock %}
+{#{% block js %}#}
+{#<script type="text/javascript">#}
+{#    var sug_val = document.querySelectorAll(".chuli .sug-val");#}
+{#    var yes = document.querySelectorAll(".chuli .yes");#}
+{#    var sug_val_j = document.querySelectorAll(".jieguo .sug-val");#}
+{#    var yes_j = document.querySelectorAll(".jieguo .yes");#}
+{##}
+{#    for(var i= 0; i< sug_val.length; i++){#}
+{##}
+{#      yes[i].value = (sug_val[i].value === "True")? "已审批" : "未审批";#}
+{#      /*if(sug_val[i].value === "True"){#}
+{#        yes[i].value = "已审批";#}
+{#      }else{#}
+{#        yes[i].value = "未审批";#}
+{#      }*/#}
+{#      yes_j[i].value = (sug_val_j[i].value === "True")? "已通过" : "未通过";#}
+{#   #}
+{#    }#}
+{##}
+{#</script>#}
+{#{% endblock %}#}
 
 {% block css %}
 <style type="text/css">
@@ -73,7 +73,7 @@
       padding-left:15px;
     }
 
-  
+
 </style>
 {% endblock %}
 
@@ -81,34 +81,34 @@
 
 
 <div class="ul-box">
-  <div class="ul-left">创意</div>
-  <div class="ul-middle">是否浏览</div>
-  <div class="ul-right">是否受理</div>
+  <div class="ul-left">预约人</div>
+  <div class="ul-middle">预约开始时间</div>
+  <div class="ul-right">预约结束时间</div>
 </div>
 <div class="show-info">
-    {% for sug in page %}
+    {% for each in data %}
 
         <div class="ula">
-          <a  href="/show_info/{{ sug.id }}">{{ sug.title }}</a>
+          <a  href="/show_info/{{ sug.id }}">{{ each.username }}</a>
         </div>
         <div class="chuli">
-        <input class="sug-val" type="hidden" value="{{ sug.is_sl }}" name="is">
-        
+        <input class="sug-val" type="hidden" value="{{ each.start_date }}" name="is">
+
         <!-- 是否浏览 -->
-            <input class="yes" type="text" value="已处理" style="border: 0px" readonly="readonly">
-      
-           
-        
+            <input class="yes" type="text" value="{{ each.start_date }}" style="border: 0px" readonly="readonly">
+
+
+
         </div>
         <div class="jieguo">
-         <input class="sug-val" type="hidden" value="{{ sug.sl }}" name="is">
-        
+         <input class="sug-val" type="hidden" value="{{ each.end_date }}" name="is">
+
         <!-- 是否浏览 -->
-            <input class="yes" type="text" value="已处理" style="border: 0px" readonly="readonly">
-        
-        
+         <input class="yes" type="text" value="{{ each.end_date }}" style="border: 0px" readonly="readonly">
+
+
         </div>
-        
+
 
     {% endfor %}
 </div>

@@ -8,6 +8,7 @@ from django.db.transaction import atomic
 from .models import User
 from seat.models import *
 from .serializers import UserSerializer
+from seat.serializers import SeatDateSerializer
 import json
 import datetime
 
@@ -19,7 +20,7 @@ from .islogin import islogin
 @api_view(["GET"])
 def user_info(request):
     user_id = request.session.get('user_id')
-
+    print('----------------', user_id)
     user = User.objects.filter(status=1).filter(id=user_id)[0]
     serializer = UserSerializer(user, many=True)
     return render(request, 'user/user_info.html', {"user": user})
@@ -50,7 +51,7 @@ def add_user(request):
 
     user = User.objects.create(username=username, password=password, email=email, major=major, status=1)
     user_id = user.id
-    blank_count = UserDefaultRecord.objects.create(user_id=user_id, count=0)
+    blank_count = UserDefaultRecord.objects.create(user_id=user_id, username=username, count=0)
     return Response({
         "status": 1,
         "msg": "成功",
@@ -73,10 +74,10 @@ def update_user(request):
 
     """
     if request.method == 'GET':
-        return render(request, 'user/update_pwd.html',)
+        return render(request, 'user/update_pwd.html', )
     data = request.POST
     id = request.session.get('user_id')
-    username = data.get("username")
+    username = data.get("username", None)
     password1 = data.get("password1")
     password2 = data.get("password2")
     email = data.get("email")
@@ -87,7 +88,7 @@ def update_user(request):
             return render(request, 'user/update_pwd_info.html', {"msg": "两次密码不一致"})
 
     data_update = {
-        "username": username,
+        "username": username.strip(),
         "password": password1,
         "email": email,
         "major": major,
@@ -96,14 +97,15 @@ def update_user(request):
     query_dict = {k: v for k, v in data_update.items() if v != None}
 
     user = User.objects.filter(id=id).update(**query_dict)
-
-    return render(request, 'user/update_pwd_info.html', {"msg": "密码修改完成"})
-
-    return Response({
-        "status": 1,
-        "msg": "修改信息成功",
-
-    })
+    if username != None:
+        SeatDate.objects.filter(user_id=id).update(username=username)
+        UserDefaultRecord.objects.filter(user_id=id).update(username=username)
+        BlankLogs.objects.filter(user_id=id).update(username=username)
+    if password1:
+        return render(request, 'user/update_pwd_info.html', {"msg": "密码修改完成"})
+    else:
+        user = User.objects.get(id=id)
+        return render(request, 'user/user_info.html', {"msg": "修改完成", "user": user})
 
 
 # 用户预约座位
@@ -132,6 +134,7 @@ def user_seat(request):
         data = request.POST
 
         user_id = request.session.get('user_id')
+        username = request.session.get('username')
 
         floor_id = data.get("floor_id")
         seat_id = data.get("seat_id")
@@ -185,7 +188,7 @@ def user_seat(request):
             if seat3.exists():
                 return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "该时间段已被预约，请重新选择。"})
 
-        use_seat = SeatDate.objects.create(user_id=user_id, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
+        use_seat = SeatDate.objects.create(user_id=user_id, username=username, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
                                            end_date=end_date,
                                            create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
                                            status=1, is_come=0)
@@ -221,7 +224,7 @@ def start_use_seat(request):
     """
     data = request.data
     id = data.get("id")
-    user_id = data.get("user_id")
+    user_id = request.session.get('user_id')
 
     data_query = {
         "user_id": user_id,
@@ -242,7 +245,15 @@ def end_use_seat(request):
     :return: 结束该座位的使用
     """
     data = request.data
-    resp = SeatDate.objects.filter(**data).filter(status=1, is_come=1).update(status=2)
+    user_id = request.session.get('user_id')
+    floor_id = data.get("floor_id")
+    seat_id = data.get("seat_id")
+    query_data = {
+        "user_id": user_id,
+        "floor_id": floor_id,
+        "seat_id": seat_id,
+    }
+    resp = SeatDate.objects.filter(**query_data).filter(status=1, is_come=1).update(status=2)
     return Response({"status": 1, "msg": "座位使用结束"})
 
 
@@ -266,6 +277,29 @@ def break_promise_seat(request):
             record.save()
         if record.count == 5:
             blank_log = BlankLogs.objects.filter(user_id=user_id).update(status=1)
-    seat_date.update(is_come=2)
+    seat_date.update(is_come=2, status=2)
 
     return Response({"status": 1, "msg": "爽约记录成功!"})
+
+
+# 查询座位的被预约信息
+def query_info(request):
+    if request.method == 'GET':
+        return render(request, 'sousuo.html', {"status": 1, "msg": "预约成功"})
+    data = request.POST
+    floor_id = data.get("floor_id")
+    seat_id = data.get("seat_id")
+    resp = SeatDate.objects.filter(floor_id=floor_id, seat_id=seat_id, status=1)
+    data_list = []
+    if resp:
+        for each in resp:
+            username = each.username
+            start_date = str(each.start_date).replace("T", " ")
+            end_date = str(each.end_date).replace("T", " ")
+            data_list.append({"username": username, "start_date": start_date, "end_date": end_date})
+    user_id = request.session.get('user_id')
+    if user_id:
+        return render(request, 'user/query_info.html', {"data": data_list})
+    else:
+        return render(request, 'user/noquery_info.html', {"data": data_list})
+
