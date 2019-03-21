@@ -10,9 +10,10 @@ from seat.models import *
 from .serializers import UserSerializer
 from seat.serializers import SeatDateSerializer
 import json
-import datetime
+import datetime, math
 
 from .islogin import islogin
+from utils.page_kit import get_page_limit
 
 
 # 通过名称查询学生
@@ -188,7 +189,8 @@ def user_seat(request):
             if seat3.exists():
                 return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "该时间段已被预约，请重新选择。"})
 
-        use_seat = SeatDate.objects.create(user_id=user_id, username=username, seat_id=seat_id, floor_id=floor_id, start_date=start_date,
+        use_seat = SeatDate.objects.create(user_id=user_id, username=username, seat_id=seat_id, floor_id=floor_id,
+                                           start_date=start_date,
                                            end_date=end_date,
                                            create_date=datetime.datetime.utcnow() + datetime.timedelta(hours=8),
                                            status=1, is_come=0)
@@ -282,24 +284,87 @@ def break_promise_seat(request):
     return Response({"status": 1, "msg": "爽约记录成功!"})
 
 
-# 查询座位的被预约信息
-def query_info(request):
+def query_get(request):
     if request.method == 'GET':
         return render(request, 'sousuo.html', {"status": 1, "msg": "预约成功"})
-    data = request.POST
-    floor_id = data.get("floor_id")
-    seat_id = data.get("seat_id")
-    resp = SeatDate.objects.filter(floor_id=floor_id, seat_id=seat_id, status=1)
+
+
+# 查询座位的被预约信息
+def query_info(request):
+    if request.method == "POST":
+        data = request.POST
+        floor_id = data.get("floor_id")
+        page = data.get("page", 1)
+        seat_id = data.get("seat_id")
+        request.session['seat_id'] = seat_id
+        request.session['floor_id'] = floor_id
+
+        resp = SeatDate.objects.filter(floor_id=floor_id, seat_id=seat_id, status=1)
+    if request.method == "GET":
+        data = request.GET
+        page = data.get("page", 1)
+        input_page = request.GET.get("input_page")
+        floor_id = request.session.get('floor_id')
+        seat_id = request.session.get('seat_id')
+
+        resp = SeatDate.objects.filter(floor_id=floor_id, seat_id=seat_id, status=1)
+        if input_page:
+            page = input_page
+    limit, offset = get_page_limit(2, page)
+    num = len(resp)
+    num = math.ceil(num / 2)
+    page_num = []
+    for i in range(1, num + 1):
+        page_num.append(i)
+    resp = resp[limit: offset]
     data_list = []
     if resp:
         for each in resp:
             username = each.username
+            floor_id = each.floor_id
+            seat_id = each.seat_id
             start_date = str(each.start_date).replace("T", " ")
             end_date = str(each.end_date).replace("T", " ")
-            data_list.append({"username": username, "start_date": start_date, "end_date": end_date})
+            data_list.append(
+                {"username": username, "start_date": start_date, "end_date": end_date, "floor_id": floor_id,
+                 "seat_id": seat_id})
+
     user_id = request.session.get('user_id')
     if user_id:
-        return render(request, 'user/query_info.html', {"data": data_list})
+        return render(request, 'user/llquery_info.html',
+                      {"data": data_list, "page_num": page_num, "last": num, "floor_id": floor_id, "seat_id": seat_id})
     else:
-        return render(request, 'user/noquery_info.html', {"data": data_list})
+        return render(request, 'user/nollquery_info.html',
+                      {"data": data_list, "page_num": page_num, "last": num})
 
+
+# 查询个人预约信息
+@islogin
+def query_oneself(request):
+    user_id = request.session.get('user_id')
+    data = request.GET
+    page = data.get("page")
+    input_page = request.GET.get("input_page")
+    if input_page:
+        page = input_page
+    limit, offset = get_page_limit(2, page)
+    resp = SeatDate.objects.filter(user_id=user_id, status=1)
+    num = len(resp)
+    num = math.ceil(num / 2)
+    page_num = []
+    for i in range(1, num + 1):
+        page_num.append(i)
+    resp = resp[limit: offset]
+    data_list = []
+    if resp:
+        for each in resp:
+            username = each.username
+            floor_id = each.floor_id
+            seat_id = each.seat_id
+            start_date = str(each.start_date).replace("T", " ")
+            end_date = str(each.end_date).replace("T", " ")
+            data_list.append(
+                {"username": username, "start_date": start_date, "end_date": end_date, "floor_id": floor_id,
+                 "seat_id": seat_id})
+
+    return render(request, 'user/query_info.html', {"data": data_list, "page_num": page_num, "last": num})

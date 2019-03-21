@@ -73,9 +73,8 @@ def login(request):
 
             else:
                 # 验证不通过，重新渲染登陆页面
-                if not User.objects.filter(username=username):
-                    # 密码错误
-                    return render(request, 'user/login.html', {'ps': "用户名或密码不正确", 'un': username})
+
+                return render(request, 'user/login.html', {'ps': "用户名或密码不正确", 'un': username})
         else:
             return render(request, 'user/login.html', {'yzmcw': "验证码不正确", 'un': username})
 

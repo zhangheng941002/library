@@ -145,24 +145,24 @@
 
             <ul class="pagination page-ul">
                 <li>
-                    <a href="query_oneself?page=1" aria-label="Previous">
+                    <a href="query_info?page=1&floor_id={{ floor_id }}&seat_id={{ seat_id }}" aria-label="Previous">
                         <span aria-hidden="true">第一页</span>
                     </a>
                 </li>
                 {% for index in page_num %}
                     {% if index <= 10 %}
-                        <li><a href="query_oneself?page={{ index }}">{{ index }}</a></li>
+                        <li><a href="query_info?page={{ index }}&floor_id={{ floor_id }}&seat_id={{ seat_id }}">{{ index }}</a></li>
 
                     {% endif %}
                 {% endfor %}
 
                 <li>
-                    <a href="query_oneself?page={{ last }}" aria-label="Next">
+                    <a href="query_info" aria-label="Next">
                         <span aria-hidden="true">尾页</span>
                     </a>
                 </li>
                 <div style="float: left">
-                    <form action="query_oneself" method="get">
+                    <form action="query_info" method="get">
                         &nbsp;
                         <input class="input-pag" type="text" name="input_page">
                         <input class="input-submit" type="submit" value="跳转">
