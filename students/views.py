@@ -310,9 +310,9 @@ def query_info(request):
         resp = SeatDate.objects.filter(floor_id=floor_id, seat_id=seat_id, status=1)
         if input_page:
             page = input_page
-    limit, offset = get_page_limit(2, page)
+    limit, offset = get_page_limit(10, page)
     num = len(resp)
-    num = math.ceil(num / 2)
+    num = math.ceil(num / 10)
     page_num = []
     for i in range(1, num + 1):
         page_num.append(i)
