@@ -88,8 +88,10 @@ def update_user(request):
         if password1 != password2:
             return render(request, 'user/update_pwd_info.html', {"msg": "两次密码不一致"})
 
+    if username:
+        username = username.strip()
     data_update = {
-        "username": username.strip(),
+        "username": username,
         "password": password1,
         "email": email,
         "major": major,
@@ -361,10 +363,12 @@ def query_oneself(request):
             username = each.username
             floor_id = each.floor_id
             seat_id = each.seat_id
+            status = each.status
+            is_come = each.is_come
             start_date = str(each.start_date).replace("T", " ")
             end_date = str(each.end_date).replace("T", " ")
             data_list.append(
                 {"username": username, "start_date": start_date, "end_date": end_date, "floor_id": floor_id,
-                 "seat_id": seat_id})
+                 "seat_id": seat_id, "status": status, "is_come": is_come})
 
     return render(request, 'user/query_info.html', {"data": data_list, "page_num": page_num, "last": num})

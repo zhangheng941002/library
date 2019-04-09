@@ -47,6 +47,12 @@
             };
         }
 
+    function dc() {
+            alert("确认到场！");
+
+    }
+
+
 
     </script>
 {% endblock %}
@@ -125,6 +131,9 @@
             <th>座位</th>
             <th>预约开始时间</th>
             <th>预约结束时间</th>
+            <th>确认到场</th>
+            <th>使用结束</th>
+            <th>取消预约</th>
             {% for each in data %}
                 </tr>
                 <tr>
@@ -133,6 +142,9 @@
                     <td>{{ each.seat_id }}</td>
                     <td>{{ each.start_date }}</td>
                     <td>{{ each.end_date }}</td>
+                    <td id="dc">{{ each.is_come }}<input type="button" onclick="dc()" value="确认到场"></td>
+                    <td id="js">{{ each.is_come }}<input type="button" onclick="js()" value="使用结束"></td>
+                    <td id="qx">{{ each.status }}<input type="button" onclick="qx()" value="取消预约"></td>
 
 
                 </tr>
