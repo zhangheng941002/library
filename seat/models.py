@@ -27,7 +27,7 @@ class Seat(models.Model):
     class Meta:
         managed = False
         db_table = 'seat'
-        verbose_name_plural = '座位表'
+        verbose_name_plural = '座位'
 
 
 # 楼层座位使用情况记录表
@@ -58,7 +58,7 @@ class SeatDate(models.Model):
     class Meta:
         managed = False
         db_table = 'seat_date'
-        verbose_name_plural = '预约座位信息表'
+        verbose_name_plural = '预约座位信息'
 
 
 # 违约记录表
@@ -70,7 +70,7 @@ class UserDefaultRecord(models.Model):
     class Meta:
         managed = False
         db_table = 'user_default_record'
-        verbose_name_plural = '用户违约次数记录表'
+        verbose_name_plural = '用户违约次数记录'
 
 
 # 黑名单表
