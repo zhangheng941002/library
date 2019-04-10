@@ -349,10 +349,10 @@ def query_oneself(request):
     input_page = request.GET.get("input_page")
     if input_page:
         page = input_page
-    limit, offset = get_page_limit(2, page)
-    resp = SeatDate.objects.filter(user_id=user_id, status=1)
+    limit, offset = get_page_limit(10, page)
+    resp = SeatDate.objects.filter(user_id=user_id).order_by("-create_date")
     num = len(resp)
-    num = math.ceil(num / 2)
+    num = math.ceil(num / 10)
     page_num = []
     for i in range(1, num + 1):
         page_num.append(i)

@@ -51,7 +51,7 @@
             console.log(each)
             $.ajax({
                 type: "POST", //提交方式
-                url: "http://127.0.0.1:8888/students/confirm_seat",//路径
+                url: "http://127.0.0.1:8000/students/confirm_seat",//路径
                 data: {
                     "id": each.id,  //数据id
                     "user_id": each.user_id
@@ -75,6 +75,62 @@
 
         }
 
+        function jss(each) {
+            console.log(each)
+            $.ajax({
+                type: "POST", //提交方式
+                url: "http://127.0.0.1:8000/students/end_use_seat",//路径
+                data: {
+                    "floor_id": each.floor_id,  //楼层id
+                    "seat_id": each.seat_id,  //座位id
+                    "user_id": each.user_id
+                },//数据，这里使用的是Json格式进行传输
+                success: function (result) {//返回数据根据结果进行相应的处理
+                    console.log(result)
+                    if (result.status === 1) {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    } else {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    }
+                }
+            });
+
+
+        }
+
+        function qx(each) {
+            console.log(each)
+            $.ajax({
+                type: "POST", //提交方式
+                url: "http://127.0.0.1:8000/students/del_seat",//路径
+                data: {
+                    "id": each.id,  //数据id
+                    "user_id": each.user_id
+                },//数据，这里使用的是Json格式进行传输
+                success: function (result) {//返回数据根据结果进行相应的处理
+                    console.log(result)
+                    if (result.status === 1) {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    } else {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    }
+                }
+            });
+
+
+        }
 
     </script>
 {% endblock %}
@@ -89,6 +145,10 @@
 
         #tables input[type='button'] {
             background: #00F7DE;
+            border: 0px;
+        }
+        .dy {
+            background: #c12e2a;
             border: 0px;
         }
 
@@ -164,14 +224,6 @@
             <th>取消预约</th>
         </tr>
         </thead>
-        {#            <script>#}
-        {#                function f() {#}
-        {#                   var tableid = document.getElementById("tables")#}
-        {#                    for(var i; i<data.length;i++){#}
-        {#                        tableid.append()#}
-        {#                    }#}
-        {#                }#}
-        {#            </script>#}
         {% for each in data %}
 
             <tbody>
@@ -181,7 +233,7 @@
                 <td>{{ each.seat_id }}</td>
                 <td>{{ each.start_date }}</td>
                 <td>{{ each.end_date }}</td>
-                {% if  each.is_come == 0 %}
+                {% if  each.is_come == 0 and each.status == 1 %}
                     <td id="dc"><input type="button" onclick="dc({{ each }})" value="确认到场"></td>
                 {% else %}
                     <td id="dc"><input type="button" disabled onclick="dc()" value="确认到场"></td>
@@ -193,7 +245,7 @@
                     <td id="jss"><input type="button" disabled onclick="jss()" value="使用结束"></td>
                 {% endif %}
 
-                {% if  each.is_come == 0 %}
+                {% if  each.is_come == 0  and each.status == 1 %}
                     <td id="qx"><input type="button" onclick="qx({{ each }})" value="取消预约"></td>
                 {% else %}
                     <td id="qx"><input type="button" disabled onclick="qx()" value="取消预约"></td>
