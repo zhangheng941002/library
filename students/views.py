@@ -365,10 +365,12 @@ def query_oneself(request):
             seat_id = each.seat_id
             status = each.status
             is_come = each.is_come
+            user_id = each.user_id
+            id = each.id
             start_date = str(each.start_date).replace("T", " ")
             end_date = str(each.end_date).replace("T", " ")
             data_list.append(
                 {"username": username, "start_date": start_date, "end_date": end_date, "floor_id": floor_id,
-                 "seat_id": seat_id, "status": status, "is_come": is_come})
+                 "seat_id": seat_id, "status": status, "is_come": is_come, "user_id": user_id, "id": id})
 
     return render(request, 'user/query_info.html', {"data": data_list, "page_num": page_num, "last": num})
