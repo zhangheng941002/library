@@ -6,7 +6,12 @@ from students.models import User
 
 # 首页
 def shouye(request):
-    return render(request, 'shouye.html')
+    user_id = request.session.get('user_id')
+    if user_id:
+        return render(request, 'shouye_dl.html')
+    else:
+        return render(request, 'shouye.html')
+
 
 
 # 搜索
@@ -53,7 +58,7 @@ def login(request):
         if yzm.lower() == yzm_sc.lower():
 
             # 通过获得的username 和 password 跟数据库进行匹配
-            user_resp = User.objects.filter(username=username, password=password)
+            user_resp = User.objects.filter(username=username, password=password, status=1)
             if user_resp:
                 # 验证通过，转到个人中心,并保存session,用于验证用户是否登陆
                 request.session['username'] = username
@@ -68,9 +73,8 @@ def login(request):
 
             else:
                 # 验证不通过，重新渲染登陆页面
-                if not User.objects.filter(username=username):
-                    # 密码错误
-                    return render(request, 'user/login.html', {'ps': "用户名或密码不正确", 'un': username})
+
+                return render(request, 'user/login.html', {'ps': "用户名或密码不正确", 'un': username})
         else:
             return render(request, 'user/login.html', {'yzmcw': "验证码不正确", 'un': username})
 

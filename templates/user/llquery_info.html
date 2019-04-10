@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block denglu %}
+    <li><a href="/user/logout">退出</a></li>
+{% endblock %}
+
+{% block sousuo %}
+
+{% endblock %}
+
+{% block js %}
+    <script language="javascript">
+        function preview(oper) {
+            if (oper < 10) {
+                bdhtml = window.document.body.innerHTML;//获取当前页的html代码
+                sprnstr = "<!--startprint" + oper + "-->";//设置打印开始区域
+                eprnstr = "<!--endprint" + oper + "-->";//设置打印结束区域
+                prnhtml = bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html
+                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));//从结束代码向前取html
+                window.document.body.innerHTML = prnhtml;
+                window.print();
+                window.document.body.innerHTML = bdhtml;
+            } else {
+                window.print();
+            }
+        }
+
+        var pt = document.querySelectorAll(".bzfz p");
+        var btni = document.querySelectorAll(".bzfz .ii");
+
+        for (var i = 0; i < pt.length; i++) {
+            if (pt[i].innerText === '.') {
+                pt[i].style.display = 'none';
+            }
+            if (pt[i].innerText === '.' && pt[i].className === 'hp') {
+                pt[i].style.display = 'block';
+                pt[i].innerText = "None";
+            }
+            if (pt[i].innerText === '.' && pt[i].className === 'firstp') {
+                pt[i].style.display = 'block';
+                pt[i].innerText = "None";
+            }
+        }
+
+        for (var j = 0; j < btni.length; j++) {
+            btni[j].onclick = function () {
+                this.previousSibling.className = 'lp';
+            };
+        }
+
+
+    </script>
+{% endblock %}
+
+{% block css %}
+    <style type="text/css">
+        .show-info .username, .show-info .start_date, .show-info .end_date {
+            display: inline-block;
+            width: 19%;
+            text-indent: 2em;
+        }
+
+        .show-info .seat, .show-info .floor {
+            display: inline-block;
+            width: 19%;
+            text-indent: 2em;
+        }
+
+        .ul-box {
+            height: 30px;
+            background: #eee;
+            line-height: 35px;
+            margin-top: 10px;
+        }
+
+        .ul-box div {
+            width: 20%;
+            float: left;
+            text-indent: 2em;
+        }
+
+        .page {
+            height: 70px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .page-box {
+            position: relative;
+        }
+
+        .page-box .pagination.page-ul {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .input-pag, .input-submit {
+            width: 40px;
+            height: 33px;
+            outline: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .input-pag {
+            width: 50px;
+            padding-left: 15px;
+        }
+         .dy {
+            background: #c12e2a;
+            border: 0px;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block center %}
+
+    <div class="ul-right-2" style="float: right">
+        <input class="dy" type=button name='button_export' title='打印1' onclick=preview(1) value="打印"></div>
+    </div>
+    <!--startprint1-->
+
+    <table border="1" bgcolor="black">
+        <tr>
+            <th>预约人</th>
+            <th>楼层</th>
+            <th>座位</th>
+            <th>预约开始时间</th>
+            <th>预约结束时间</th>
+            {% for each in data %}
+                </tr>
+                <tr>
+                    <td>{{ each.username }}</td>
+                    <td>{{ each.floor_id }}</td>
+                    <td>{{ each.seat_id }}</td>
+                    <td>{{ each.start_date }}</td>
+                    <td>{{ each.end_date }}</td>
+
+
+                </tr>
+            {% endfor %}
+    </table>
+
+    <!--endprint1-->
+
+
+    <div class="page">
+        <nav aria-label="Page navigation" class="page-box">
+
+            <ul class="pagination page-ul">
+                <li>
+                    <a href="query_info?page=1&floor_id={{ floor_id }}&seat_id={{ seat_id }}" aria-label="Previous">
+                        <span aria-hidden="true">第一页</span>
+                    </a>
+                </li>
+                {% for index in page_num %}
+                    {% if index <= 10 %}
+                        <li><a href="query_info?page={{ index }}&floor_id={{ floor_id }}&seat_id={{ seat_id }}">{{ index }}</a></li>
+
+                    {% endif %}
+                {% endfor %}
+
+                <li>
+                    <a href="query_info?page={{ last }}&floor_id={{ floor_id }}&seat_id={{ seat_id }}" aria-label="Next">
+                        <span aria-hidden="true">尾页</span>
+                    </a>
+                </li>
+                <div style="float: left">
+                    <form action="query_info" method="get">
+                        &nbsp;
+                        <input class="input-pag" type="text" name="input_page">
+
+                        <input class="input-submit" type="submit" value="跳转">
+
+                    </form>
+                </div>
+            </ul>
+
+        </nav>
+    </div>
+
+
+{% endblock %}

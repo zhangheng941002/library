@@ -19,21 +19,21 @@ class SeatAdmin(admin.ModelAdmin):
 
 class SeatDateAdmin(admin.ModelAdmin):
     # 后台展示的字段,展示标题，分类，谁提交的
-    list_display = ["user_id", "floor_id", "seat_id", "start_date", "end_date", "status", "is_come"]
+    list_display = ["username", "floor_id", "seat_id", "start_date", "end_date", "status", "is_come"]
     # 每页显示几条
     list_per_page = 10
 
 
 class UserDefaultRecordAdmin(admin.ModelAdmin):
     # 后台展示的字段,展示标题，分类，谁提交的
-    list_display = ["user_id", "count"]
+    list_display = ["username", "count"]
     # 每页显示几条
     list_per_page = 10
 
 
 class BlankLogsAdmin(admin.ModelAdmin):
     # 后台展示的字段,展示标题，分类，谁提交的
-    list_display = ["user_id", "status"]
+    list_display = ["username", "status"]
     # 每页显示几条
     list_per_page = 10
 

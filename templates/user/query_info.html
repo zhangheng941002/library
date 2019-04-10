@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% block denglu %}
+    <li><a href="/user/logout">退出</a></li>
+{% endblock %}
+
+{% block sousuo %}
+
+{% endblock %}
+
+{% block js %}
+    <script language="javascript">
+        function preview(oper) {
+            if (oper < 10) {
+                bdhtml = window.document.body.innerHTML;//获取当前页的html代码
+                sprnstr = "<!--startprint" + oper + "-->";//设置打印开始区域
+                eprnstr = "<!--endprint" + oper + "-->";//设置打印结束区域
+                prnhtml = bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html
+                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));//从结束代码向前取html
+                window.document.body.innerHTML = prnhtml;
+                window.print();
+                window.document.body.innerHTML = bdhtml;
+            } else {
+                window.print();
+            }
+        }
+
+        var pt = document.querySelectorAll(".bzfz p");
+        var btni = document.querySelectorAll(".bzfz .ii");
+
+        for (var i = 0; i < pt.length; i++) {
+            if (pt[i].innerText === '.') {
+                pt[i].style.display = 'none';
+            }
+            if (pt[i].innerText === '.' && pt[i].className === 'hp') {
+                pt[i].style.display = 'block';
+                pt[i].innerText = "None";
+            }
+            if (pt[i].innerText === '.' && pt[i].className === 'firstp') {
+                pt[i].style.display = 'block';
+                pt[i].innerText = "None";
+            }
+        }
+
+        for (var j = 0; j < btni.length; j++) {
+            btni[j].onclick = function () {
+                this.previousSibling.className = 'lp';
+            };
+        }
+
+        function dc(each) {
+            console.log(each)
+            $.ajax({
+                type: "POST", //提交方式
+                url: "http://127.0.0.1:8000/students/confirm_seat",//路径
+                data: {
+                    "id": each.id,  //数据id
+                    "user_id": each.user_id
+                },//数据，这里使用的是Json格式进行传输
+                success: function (result) {//返回数据根据结果进行相应的处理
+                    console.log(result)
+                    if (result.status === 1) {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    } else {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    }
+                }
+            });
+
+
+        }
+
+        function jss(each) {
+            console.log(each)
+            $.ajax({
+                type: "POST", //提交方式
+                url: "http://127.0.0.1:8000/students/end_use_seat",//路径
+                data: {
+                    "floor_id": each.floor_id,  //楼层id
+                    "seat_id": each.seat_id,  //座位id
+                    "user_id": each.user_id
+                },//数据，这里使用的是Json格式进行传输
+                success: function (result) {//返回数据根据结果进行相应的处理
+                    console.log(result)
+                    if (result.status === 1) {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    } else {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    }
+                }
+            });
+
+
+        }
+
+        function qx(each) {
+            console.log(each)
+            $.ajax({
+                type: "POST", //提交方式
+                url: "http://127.0.0.1:8000/students/del_seat",//路径
+                data: {
+                    "id": each.id,  //数据id
+                    "user_id": each.user_id
+                },//数据，这里使用的是Json格式进行传输
+                success: function (result) {//返回数据根据结果进行相应的处理
+                    console.log(result)
+                    if (result.status === 1) {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    } else {
+                        console.log(result.status, result.msg);
+                        alert(result.msg);
+                        window.location.reload();
+
+                    }
+                }
+            });
+
+
+        }
+
+    </script>
+{% endblock %}
+
+{% block css %}
+    <style type="text/css">
+        .show-info .username, .show-info .start_date, .show-info .end_date {
+            display: inline-block;
+            width: 19%;
+            text-indent: 2em;
+        }
+
+        #tables input[type='button'] {
+            background: #00F7DE;
+            border: 0px;
+        }
+        .dy {
+            background: #c12e2a;
+            border: 0px;
+        }
+
+        .show-info .seat, .show-info .floor {
+            display: inline-block;
+            width: 19%;
+            text-indent: 2em;
+        }
+
+        .ul-box {
+            height: 30px;
+            background: #eee;
+            line-height: 35px;
+            margin-top: 10px;
+        }
+
+        .ul-box div {
+            width: 20%;
+            float: left;
+            text-indent: 2em;
+        }
+
+        .page {
+            height: 70px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .page-box {
+            position: relative;
+        }
+
+        .page-box .pagination.page-ul {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .input-pag, .input-submit {
+            width: 40px;
+            height: 33px;
+            outline: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .input-pag {
+            width: 50px;
+            padding-left: 15px;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block center %}
+
+    <div class="ul-right-2" style="float: right">
+        <input class="dy" type=button name='button_export' title='打印1' onclick=preview(1) value="打印"></div>
+    </div>
+    <!--startprint1-->
+
+    <table border="1" bgcolor="black" id="tables">
+        <thead>
+        <tr>
+            <th>预约人</th>
+            <th>楼层</th>
+            <th>座位</th>
+            <th>预约开始时间</th>
+            <th>预约结束时间</th>
+            <th>确认到场</th>
+            <th>使用结束</th>
+            <th>取消预约</th>
+        </tr>
+        </thead>
+        {% for each in data %}
+
+            <tbody>
+            <tr>
+                <td>{{ each.username }}</td>
+                <td>{{ each.floor_id }}</td>
+                <td>{{ each.seat_id }}</td>
+                <td>{{ each.start_date }}</td>
+                <td>{{ each.end_date }}</td>
+                {% if  each.is_come == 0 and each.status == 1 %}
+                    <td id="dc"><input type="button" onclick="dc({{ each }})" value="确认到场"></td>
+                {% else %}
+                    <td id="dc"><input type="button" disabled onclick="dc()" value="确认到场"></td>
+                {% endif %}
+
+                {% if  each.is_come == 1 and each.status == 1 %}
+                    <td id="jss"><input type="button" onclick="jss({{ each }})" value="使用结束"></td>
+                {% else %}
+                    <td id="jss"><input type="button" disabled onclick="jss()" value="使用结束"></td>
+                {% endif %}
+
+                {% if  each.is_come == 0  and each.status == 1 %}
+                    <td id="qx"><input type="button" onclick="qx({{ each }})" value="取消预约"></td>
+                {% else %}
+                    <td id="qx"><input type="button" disabled onclick="qx()" value="取消预约"></td>
+                {% endif %}
+            </tr>
+            </tbody>
+
+
+        {% endfor %}
+    </table>
+
+    <!--endprint1-->
+
+
+    <div class="page">
+        <nav aria-label="Page navigation" class="page-box">
+
+            <ul class="pagination page-ul">
+                <li>
+                    <a href="query_oneself?page=1" aria-label="Previous">
+                        <span aria-hidden="true">第一页</span>
+                    </a>
+                </li>
+                {% for index in page_num %}
+                    {% if index <= 10 %}
+                        <li><a href="query_oneself?page={{ index }}">{{ index }}</a></li>
+
+                    {% endif %}
+                {% endfor %}
+
+                <li>
+                    <a href="query_oneself?page={{ last }}" aria-label="Next">
+                        <span aria-hidden="true">尾页</span>
+                    </a>
+                </li>
+                <div style="float: left">
+                    <form action="query_oneself" method="get">
+                        &nbsp;
+                        <input class="input-pag" type="text" name="input_page">
+                        <input class="input-submit" type="submit" value="跳转">
+
+                    </form>
+                </div>
+            </ul>
+
+        </nav>
+    </div>
+
+
+{% endblock %}
