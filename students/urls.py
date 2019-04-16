@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from rest_framework import routers
 from .views import *
+from .wx import *
 # from rest import views as rest_views
 router = routers.DefaultRouter(trailing_slash=False)
 
@@ -21,3 +22,4 @@ urlpatterns.append(url(r'end_use_seat', end_use_seat))  # 预约座位使用结�
 urlpatterns.append(url(r'query_get', query_get))  # 查询get
 urlpatterns.append(url(r'query_info', query_info))  # 查询座位的预约信息
 urlpatterns.append(url(r'query_oneself', query_oneself))  # 查询个人的预约信息
+urlpatterns.append(url(r'wxyzm', send_message_to_me))  # 验证码
