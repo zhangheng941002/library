@@ -3,7 +3,7 @@ import requests, json
 import random
 
 
-def send_message_to_me(request):
+def send_message_to_me():
     # 定义验证码的备选值
     str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0qwertyuiopasdfghjklzxcvbnm'
     # 随机选取4个值作为验证码
@@ -22,10 +22,13 @@ def send_message_to_me(request):
     # print(resp)
     if resp.get("code") == 0:
         print(resp.get("data"))
+        return {"status": 1, "wxyzm": rand_str}
+    else:
+        return {"status": 0, "msg": "发送验证码失败"}
 
-    response = JsonResponse({'st': rand_str})
-    response.set_cookie('wxyzm', rand_str)
-    return response
+    # response = JsonResponse({'st': rand_str})
+    # response.set_cookie('wxyzm', rand_str)
+    # return response
 
 
 if __name__ == '__main__':

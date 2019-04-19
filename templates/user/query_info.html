@@ -54,19 +54,22 @@
                 url: "http://127.0.0.1:8000/students/confirm_seat",//路径
                 data: {
                     "id": each.id,  //数据id
+                    "floor_id": each.floor_id,  //数据id
+                    "seat_id": each.seat_id,  //数据id
                     "user_id": each.user_id
                 },//数据，这里使用的是Json格式进行传输
                 success: function (result) {//返回数据根据结果进行相应的处理
                     console.log(result)
                     if (result.status === 1) {
                         console.log(result.status, result.msg);
-                        alert(result.msg);
-                        window.location.reload();
+                        window.location.href ="http://127.0.0.1:8000/students/confirm_seat"
+                        {#alert(result.msg);#}
+                        {#window.location.reload();#}
 
                     } else {
                         console.log(result.status, result.msg);
-                        alert(result.msg);
-                        window.location.reload();
+                        {#alert(result.msg);#}
+                        {#window.location.reload();#}
 
                     }
                 }
@@ -234,9 +237,10 @@
                 <td>{{ each.start_date }}</td>
                 <td>{{ each.end_date }}</td>
                 {% if  each.is_come == 0 and each.status == 1 %}
-                    <td id="dc"><input type="button" onclick="dc({{ each }})" value="确认到场"></td>
+{#                    <td id="dc"><input type="button" onclick="dc({{ each }})" value="确认到场"></td>#}
+                    <td id="dc"><a disabled href="http://127.0.0.1:8000/students/confirm_seat?seat_id={{ each.seat_id }}&floor_id={{ each.floor_id }}&id={{ each.id }}">确认到场</a></td>
                 {% else %}
-                    <td id="dc"><input type="button" disabled onclick="dc()" value="确认到场"></td>
+                    <td id="dc"><input type="button" disabled onclick="dc()" value="已到场"></td>
                 {% endif %}
 
                 {% if  each.is_come == 1 and each.status == 1 %}

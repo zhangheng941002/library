@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block sousuo %}
+
+{% endblock %}
+
+{% block css %}
+
+    <style type="text/css">
+
+        #div1 {
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+        }
+
+        #div1 form {
+            border: 1px solid #aaa;
+            width: 500px;
+            padding: 25px 20px 25px 100px;
+            background: #eee;
+            border-radius: 7px;
+            margin: 0 auto;
+        }
+
+        .syzm {
+            margin-left: 25px;
+            margin-bottom: -10px;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            background: yellowgreen;
+            width: 55px;
+            height: 30px;
+            text-align: center;
+        }
+
+        #dl {
+            margin: 25px 0 0 50px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            font-size: 16px;
+        }
+
+        #qx {
+            margin: 25px 0 0 50px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            font-size: 16px;
+        }
+
+        .pwd-box {
+            position: relative;
+        }
+
+        .error {
+            position: absolute;
+            right: 0;
+            top: 3px;
+            display: none;
+            color: #f00;
+        }
+
+
+
+
+    </style>
+
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
+{% block denglu %}
+  <li><a href="/user/logout" >退出</a></li>
+{% endblock %}
+
+{% block reg %}
+    <div id="div1">
+
+        <form action="/students/start_use_seat" method="post">
+            {% csrf_token %}
+            <div style="position:relative;color:red">
+                {{ msg }}</div>
+            <div style="position:relative;">
+                楼　　层：<input type="text" name="floor_id" id="floor_id" readonly="readonly" value="{{ floor_id }}" style="text-align:center"></div>
+            </br>
+
+            <div class="pwd-box">
+                座　　位：<input type="text" name="seat_id" id=""  readonly="readonly" value="{{ seat_id }}" style="text-align:center">　</div>
+            <br>
+            <div class="pwd-box">
+                验证码处：<input type="text" name="wxcode" id="" placeholder="请输入验证码" style="text-align:center">　</div>
+            </br>
+
+            <input type="hidden" name="id" value="{{ id }}">
+
+
+            <input id="dl" name="tj" type="submit" value="确定" style="width: 150px">
+            <a id="qx" href="http://127.0.0.1:8000/students/query_oneself">取消</a>
+        </form>
+
+
+    </div>
+
+
+
+{% endblock reg %}

@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from decimal import Decimal
+from .wx import send_message_to_me
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,7 +21,6 @@ from utils.page_kit import get_page_limit
 @api_view(["GET"])
 def user_info(request):
     user_id = request.session.get('user_id')
-    print('----------------', user_id)
     user = User.objects.filter(status=1).filter(id=user_id)[0]
     serializer = UserSerializer(user, many=True)
     return render(request, 'user/user_info.html', {"user": user})
@@ -199,7 +198,6 @@ def user_seat(request):
         return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "预约成功"})
 
 
-# 取消预约
 @api_view(["POST"])
 def del_seat(request):
     """
@@ -220,6 +218,23 @@ def del_seat(request):
         return Response({"status": 0, "msg": "取消预约失败，没有查到预约信息", })
 
 
+# 微信验证码
+@api_view(["GET"])
+def wx_code(request):
+    """
+
+    """
+    data = request.GET
+    floor_id = data.get("floor_id")
+    seat_id = data.get("seat_id")
+    id = data.get("id")
+    wxcode = send_message_to_me()
+    if wxcode.get("status") == 1:
+        request.session['wxcode'] = wxcode.get("wxyzm")
+
+    return render(request, 'user/wxcode.html', {"floor_id": floor_id, "seat_id": seat_id, "id": id})
+
+
 # 确认入场
 @api_view(["POST"])
 def start_use_seat(request):
@@ -228,17 +243,25 @@ def start_use_seat(request):
     """
     data = request.data
     id = data.get("id")
+    seat_id = data.get("seat_id")
+    floor_id = data.get("floor_id")
+    wxcode = data.get("wxcode")
     user_id = request.session.get('user_id')
-
+    swxcode = request.session.get('wxcode')
+    print(wxcode,'--------------', swxcode)
+    if wxcode == swxcode:
+        pass
+    else:
+        return render(request, 'user/wxcode.html', {"floor_id": floor_id, "seat_id": seat_id, "id": id, "msg": "验证码不正确"})
     data_query = {
         "user_id": user_id,
         "id": id,
     }
     seat_date = SeatDate.objects.filter(**data_query).update(is_come=1)
     if seat_date:
-        return Response({"status": 1, "msg": "签到成功", })
+        return render(request, 'user/confirm_success.html', {"floor_id": floor_id, "seat_id": seat_id, "msg": "签到成功"})
     else:
-        return Response({"status": 0, "msg": "签到失败，没有查到预约信息。"})
+        return render(request, 'user/confirm_success.html', {"floor_id": floor_id, "seat_id": seat_id, "msg": "签到失败"})
 
 
 @api_view(["POST"])
