@@ -149,6 +149,11 @@ def user_seat(request):
         start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
 
+        now = datetime.datetime.now()
+        if start_date < now:
+            return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "您预约的时间已经远去了。"})
+
+
         # 先查询预约用户是否在黑名单中
         blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
 

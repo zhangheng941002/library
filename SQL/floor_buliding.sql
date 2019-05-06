@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : yk
-Source Server Version : 50716
-Source Host           : 172.31.0.8:3306
-Source Database       : portal
-
-Target Server Type    : MYSQL
-Target Server Version : 50716
-File Encoding         : 65001
-
-Date: 2019-03-02 16:24:47
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
