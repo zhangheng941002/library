@@ -239,6 +239,8 @@
                 {% if  each.is_come == 0 and each.status == 1 %}
 {#                    <td id="dc"><input type="button" onclick="dc({{ each }})" value="确认到场"></td>#}
                     <td id="dc"><a disabled href="http://127.0.0.1:8000/students/confirm_seat?seat_id={{ each.seat_id }}&floor_id={{ each.floor_id }}&id={{ each.id }}">确认到场</a></td>
+                {% elif each.is_come == 0 and each.status == 0 %}
+                    <td id="dc"><input type="button" disabled onclick="dc()" value="已取消"></td>
                 {% else %}
                     <td id="dc"><input type="button" disabled onclick="dc()" value="已到场"></td>
                 {% endif %}
