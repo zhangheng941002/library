@@ -142,7 +142,6 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/load/')
 
-
 # 跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -173,3 +172,6 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
+
+# 验证码接收人的名称，注意是备注后的名字
+WX_USERNAME = "备注后的名字"
