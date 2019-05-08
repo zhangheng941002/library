@@ -75,4 +75,6 @@ def email_msg(request):
             email = User.objects.get(id=user_id)
             resp = send_email(email.email, "你预定的座位还有十分钟就进入了学习时间，请注意！")
 
-    return Response({"status": 1, "msg": "邮件发送成功！", })
+        return Response({"status": 1, "msg": "邮件发送成功！", })
+    else:
+        return Response({"status": 0, "msg": "没有用户满足条件", })
