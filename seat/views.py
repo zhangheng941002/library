@@ -120,6 +120,9 @@ def get_use_all_seat(request):
             data_list.append(
                 {"status": 0, "floor_id": int(floor_id), "seat_id": int(seat_id), "start_date": "", "end_date": "",
                  "msg": "该座位目前未被预约"})
+    if username:
+        return render(request, '25gongge/dlindex.html', {"results": data_list, "count": len(data_list)})
+
     return render(request, '25gongge/index.html', {"results": data_list, "count": len(data_list)})
     # return Response({"results": data_list, "count": len(data_list)})
 
