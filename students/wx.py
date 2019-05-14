@@ -16,9 +16,13 @@ def send_message_to_me():
 
     users = itchat.search_friends(name=settings.WX_USERNAME)  # 使用备注名来查找实际用户名
     # 获取`UserName`,用于发送消息
-    userName = users[0]['UserName']
-    itchat.send("学习的验证码为：{}".format(rand_str), toUserName=userName)
-    return {"status": 1, "wxyzm": rand_str}
+    print(users)
+    if users:
+        userName = users[0]['UserName']
+        itchat.send("学习的验证码为：{}".format(rand_str), toUserName=userName)
+        return {"status": 1, "wxyzm": rand_str}
+    else:
+        return {"status": 0}
 
 
 if __name__ == '__main__':

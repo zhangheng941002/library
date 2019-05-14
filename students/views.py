@@ -153,7 +153,6 @@ def user_seat(request):
         if start_date < now:
             return render(request, 'date_choose/choosedate_success.html', {"status": 1, "msg": "您预约的时间已经远去了。"})
 
-
         # 先查询预约用户是否在黑名单中
         blank_logs = BlankLogs.objects.filter(user_id=user_id, status=1)
 
@@ -237,7 +236,9 @@ def wx_code(request):
     if wxcode.get("status") == 1:
         request.session['wxcode'] = wxcode.get("wxyzm")
 
-    return render(request, 'user/wxcode.html', {"floor_id": floor_id, "seat_id": seat_id, "id": id})
+        return render(request, 'user/wxcode.html', {"floor_id": floor_id, "seat_id": seat_id, "id": id})
+    else:
+        return render(request, 'user/failurewxcode.html', {"msg": "没有搜索到接收验证码的人"})
 
 
 # 确认入场
@@ -253,11 +254,12 @@ def start_use_seat(request):
     wxcode = data.get("wxcode")
     user_id = request.session.get('user_id')
     swxcode = request.session.get('wxcode')
-    print(wxcode,'--------------', swxcode)
+    print(wxcode, '--------------', swxcode)
     if wxcode == swxcode:
         pass
     else:
-        return render(request, 'user/wxcode.html', {"floor_id": floor_id, "seat_id": seat_id, "id": id, "msg": "验证码不正确"})
+        return render(request, 'user/wxcode.html',
+                      {"floor_id": floor_id, "seat_id": seat_id, "id": id, "msg": "验证码不正确"})
     data_query = {
         "user_id": user_id,
         "id": id,
